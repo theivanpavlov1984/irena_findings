@@ -243,7 +243,13 @@ function Card({ lot, fav, onFav, onOpen, i, tag = true }) {
 function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, onSearch }) {
   useEffect(() => { const sbw = window.innerWidth - document.documentElement.clientWidth; document.body.style.overflow = "hidden"; if (sbw > 0) { document.body.style.paddingRight = sbw + "px"; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = sbw + "px"; } return () => { document.body.style.overflow = ""; document.body.style.paddingRight = ""; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = ""; }; }, []);
   const showRetail = lot.retail && (lot.retail - lot.price) / lot.retail >= 0.4;
-  const tg = TELEGRAM + "?text=" + encodeURIComponent("Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model + " (лот " + lot.id + ").");
+  const [origin, setOrigin] = useState("");
+  useEffect(() => { setOrigin(window.location.origin); }, []);
+  const lotUrl = origin ? origin + "/lot/" + lot.id : "";
+  const tg = TELEGRAM + "?text=" + encodeURIComponent(
+    "Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model + " — " + fmt(lot.price) + "." +
+    (lotUrl ? "\n" + lotUrl : "")
+  );
   const catLabel = lot.cat === "bags" ? "Сумки" : "Украшения";
   const [tab, setTab] = useState("desc");
   const [ph, setPh] = useState(0);
