@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import NextImage from "next/image";
 import { ArrowRight, X, ChevronDown, ChevronLeft, ChevronRight, Instagram, Send, SlidersHorizontal, Share2 } from "lucide-react";
 
 /* IRENA · Находки — прототип v5 */
@@ -32,7 +33,7 @@ function HeroMedia({ images }) {
   return (
     <div onMouseEnter={() => { paused.current = true; }} onMouseLeave={() => { paused.current = false; }} style={{ position: "relative", width: "min(100%,540px)", aspectRatio: "643 / 665", margin: "0 auto" }}>
       {images.map((src, i) => (
-        <img loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : "auto"} decoding="async" key={i} src={src} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", opacity: i === idx ? 1 : 0, transition: "opacity 1.2s ease", display: "block", pointerEvents: "none" }} />
+        <NextImage key={i} src={src} alt="" fill priority={i === 0} sizes="(max-width: 768px) 100vw, 540px" style={{ objectFit: "contain", opacity: i === idx ? 1 : 0, transition: "opacity 1.2s ease", display: "block", pointerEvents: "none" }} />
       ))}
     </div>
   );
@@ -95,10 +96,10 @@ function SearchIcon({ size = 20 }) {
 function TgIcon({ size = 18, stroke }) { return (<svg width={size} height={size} viewBox="0 0 24 24" fill="none"><path d="M21.5 4.3L2.9 11.4c-1 .4-1 1.1 .1 1.4l4.6 1.4 1.8 5.4c.2 .6 .1 .9 .8 .9 .5 0 .7-.2 1-.5l2.3-2.3 4.6 3.4c.9 .5 1.4 .2 1.6-.8l3-13.9c.3-1.2-.5-1.8-1.8-1.5z" stroke={stroke || C.ink2} strokeWidth="1.3" strokelinejoin="round" /></svg>); }
 function UserIcon({ size = 20, ...rest }) { return (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...rest}><path fillRule="evenodd" clipRule="evenodd" d="M12.0043 2C9.07027 2 6.69177 4.38864 6.69177 7.33517C6.69177 10.2817 9.07027 12.6703 12.0043 12.6703C14.9383 12.6703 17.3168 10.2817 17.3168 7.33517C17.3168 4.38864 14.9383 2 12.0043 2ZM12.0043 3.44767C14.1422 3.44767 15.8753 5.18816 15.8753 7.33517C15.8753 9.48218 14.1422 11.2227 12.0043 11.2227C9.8664 11.2227 8.1333 9.48218 8.1333 7.33517C8.1333 5.18816 9.8664 3.44767 12.0043 3.44767ZM9.83005 14.8209C9.05233 14.8749 8.26621 14.9859 7.4908 15.1521C5.99418 15.4604 4.79685 16.0763 4.28724 17.0999C4.09503 17.5002 3.99839 17.9288 4.00002 18.3627C3.99944 18.7935 4.0953 19.2227 4.28062 19.6153C4.76994 20.6271 5.8278 21.1997 7.25624 21.5171L7.51213 21.5705C8.26648 21.7407 9.05284 21.8553 9.84446 21.909C9.91189 21.9288 10.0726 21.9472 10.248 21.9561L10.3922 21.9615C10.4664 21.9633 10.5506 21.9637 10.676 21.9637C11.8138 22.0263 12.9934 22.0081 14.1675 21.9081C14.7932 21.8653 15.4231 21.7835 16.0477 21.6636L16.5151 21.5666C18.0576 21.2623 19.2126 20.6836 19.7186 19.6164C20.0937 18.8241 20.0937 17.9047 19.7188 17.1127C19.214 16.0483 18.0737 15.4744 16.5034 15.1509C15.8873 15.0194 15.2612 14.922 14.6307 14.8599L14.1697 14.8209C12.7259 14.6935 11.2738 14.6935 9.83005 14.8209ZM14.0436 16.263L14.0562 16.264C14.7799 16.3149 15.4991 16.4165 16.2087 16.568C17.3751 16.8083 18.1667 17.2067 18.4171 17.7348C18.6057 18.133 18.6057 18.5958 18.4169 18.9944C18.1829 19.4879 17.472 19.8691 16.4445 20.1021L16.2195 20.1498C15.496 20.3112 14.7791 20.4152 14.0576 20.4647C12.9379 20.5599 11.8249 20.5771 10.7148 20.5171L10.3212 20.5103C10.2119 20.5048 10.1198 20.4942 10.0345 20.4771C9.35872 20.4261 8.75066 20.3454 8.16027 20.2283L7.80775 20.1537C6.63771 19.9244 5.83915 19.5243 5.58024 18.989C5.48964 18.797 5.44125 18.5803 5.44154 18.3609C5.44073 18.1428 5.48848 17.931 5.58118 17.7379C5.83293 17.2324 6.67919 16.7971 7.78606 16.569C8.50073 16.4159 9.21962 16.3144 9.94294 16.264C11.316 16.143 12.6837 16.143 14.0436 16.263Z" fill="currentColor"/></svg>); }
 
-function Photo({ src, alt, ratio, fit }) { return (<div style={{ position: "relative", width: "100%", aspectRatio: ratio || "1", overflow: "hidden", background: C.panel }}><img src={src} alt={alt || ""} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: fit || "cover", display: "block" }} /></div>); }
+function Photo({ src, alt, ratio, fit }) { return (<div style={{ position: "relative", width: "100%", aspectRatio: ratio || "1", overflow: "hidden", background: C.panel }}><NextImage src={src} alt={alt || ""} fill sizes="(max-width: 768px) 50vw, 300px" style={{ width: "100%", height: "100%", objectFit: fit || "cover", display: "block" }} /></div>); }
 function LotImage({ lot, big, idx = 0 }) {
   const src = (lot.photos && (lot.photos[idx] || lot.photos[0])) || PHOTOS[lot.id];
-  if (src) return (<div style={{ width: "100%", height: "100%", background: "#fff", display: "grid", placeItems: "center" }}><img src={src} alt={lot.brand + " " + lot.model} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>);
+  if (src) return (<div style={{ position: "relative", width: "100%", height: "100%", background: "#fff", display: "grid", placeItems: "center" }}><NextImage src={src} alt={lot.brand + " " + lot.model} fill sizes="(max-width: 768px) 50vw, 420px" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>);
   const isJ = lot.cat === "jewelry";
   const g = isJ ? "linear-gradient(150deg,#F3F1EC,#E4DECF)" : "linear-gradient(150deg,#EFEDE8,#DAD5C8)";
   return (<div style={{ position: "relative", width: "100%", height: "100%", background: g, overflow: "hidden", display: "grid", placeItems: "center" }}>
@@ -243,13 +244,7 @@ function Card({ lot, fav, onFav, onOpen, i, tag = true }) {
 function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, onSearch }) {
   useEffect(() => { const sbw = window.innerWidth - document.documentElement.clientWidth; document.body.style.overflow = "hidden"; if (sbw > 0) { document.body.style.paddingRight = sbw + "px"; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = sbw + "px"; } return () => { document.body.style.overflow = ""; document.body.style.paddingRight = ""; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = ""; }; }, []);
   const showRetail = lot.retail && (lot.retail - lot.price) / lot.retail >= 0.4;
-  const [origin, setOrigin] = useState("");
-  useEffect(() => { setOrigin(window.location.origin); }, []);
-  const lotUrl = origin ? origin + "/lot/" + lot.id : "";
-  const tg = TELEGRAM + "?text=" + encodeURIComponent(
-    "Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model + " — " + fmt(lot.price) + "." +
-    (lotUrl ? "\n" + lotUrl : "")
-  );
+  const tg = TELEGRAM + "?text=" + encodeURIComponent("Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model + " (лот " + lot.id + ").");
   const catLabel = lot.cat === "bags" ? "Сумки" : "Украшения";
   const [tab, setTab] = useState("desc");
   const [ph, setPh] = useState(0);
