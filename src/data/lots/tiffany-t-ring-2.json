@@ -1,0 +1,27 @@
+{
+  "id": "tiffany-t-ring-2",
+  "order": 45,
+  "cat": "jewelry",
+  "brand": "Tiffany & Co.",
+  "collection": "Tiffany T",
+  "type": "Кольца",
+  "model": "T ring",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Белое золото",
+    "metal": "Белое золото",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "jeweler",
+  "photos": [
+    "/photos/Tiffany_T_Ring_2_02.jpg",
+    "/photos/Tiffany_T_Ring_2_03.jpg",
+    "/photos/Tiffany_T_Ring_2_04.jpg"
+  ],
+  "desc": "Tiffany & Co. T ring — белое золото. Перед передачей — экспертиза доверенного ювелира в Москве и полировка."
+}

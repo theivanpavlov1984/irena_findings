@@ -1,0 +1,26 @@
+{
+  "id": "lv-felicie-pochette",
+  "order": 32,
+  "cat": "bags",
+  "brand": "Louis Vuitton",
+  "collection": "Pochette",
+  "type": "Клатчи и пошетты",
+  "model": "Félicie Pochette",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Монограм",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/LV_Felicie_Pochette_01.jpg",
+    "/photos/LV_Felicie_Pochette_02.jpg"
+  ],
+  "desc": "Louis Vuitton Félicie Pochette — монограм. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+}

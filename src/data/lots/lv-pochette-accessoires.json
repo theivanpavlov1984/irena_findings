@@ -1,0 +1,28 @@
+{
+  "id": "lv-pochette-accessoires",
+  "order": 40,
+  "cat": "bags",
+  "brand": "Louis Vuitton",
+  "collection": "Pochette",
+  "type": "Клатчи и пошетты",
+  "model": "Pochette / кошельки",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Ассорти",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/LV_Pochette_Accessoires_01.jpg",
+    "/photos/LV_Pochette_Accessoires_02.jpg",
+    "/photos/LV_Pochette_Accessoires_03.jpg",
+    "/photos/LV_Pochette_Accessoires_04.jpg"
+  ],
+  "desc": "Louis Vuitton Pochette / кошельки — ассорти. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+}

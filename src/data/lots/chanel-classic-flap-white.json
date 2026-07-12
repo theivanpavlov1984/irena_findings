@@ -1,0 +1,28 @@
+{
+  "id": "chanel-classic-flap-white",
+  "order": 9,
+  "cat": "bags",
+  "brand": "Chanel",
+  "collection": "Flap",
+  "type": "Сумки",
+  "model": "Classic Flap",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Белый",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/Chanel_Classic_Flap_White_01.jpg",
+    "/photos/Chanel_Classic_Flap_White_02.jpg",
+    "/photos/Chanel_Classic_Flap_White_03.jpg",
+    "/photos/Chanel_Classic_Flap_White_04.jpg"
+  ],
+  "desc": "Chanel Classic Flap — белый. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+}

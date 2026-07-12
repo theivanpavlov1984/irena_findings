@@ -1,0 +1,28 @@
+{
+  "id": "graff-flower-earrings",
+  "order": 21,
+  "cat": "jewelry",
+  "brand": "Graff",
+  "collection": "",
+  "type": "Серьги",
+  "model": "Flower",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Серьги",
+    "metal": "Серьги",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "jeweler",
+  "photos": [
+    "/photos/Graff_Flower_Earrings_01.jpg",
+    "/photos/Graff_Flower_Earrings_02.jpg",
+    "/photos/Graff_Flower_Earrings_03.jpg",
+    "/photos/Graff_Flower_Earrings_04.jpg"
+  ],
+  "desc": "Graff Flower — серьги. Перед передачей — экспертиза доверенного ювелира в Москве и полировка."
+}

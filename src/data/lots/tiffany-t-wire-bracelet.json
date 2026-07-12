@@ -1,0 +1,28 @@
+{
+  "id": "tiffany-t-wire-bracelet",
+  "order": 46,
+  "cat": "jewelry",
+  "brand": "Tiffany & Co.",
+  "collection": "Tiffany T",
+  "type": "Браслеты",
+  "model": "T Wire bracelet",
+  "price": 210000,
+  "condition": "Хорошее",
+  "conditionNote": "Лёгкие царапины, которые уходят при полировке. По прибытии в Москву браслет проходит лёгкую полировку у ювелира",
+  "status": "available",
+  "specs": {
+    "color": "Белое золото",
+    "metal": "Белое золото 18k",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "jeweler",
+  "photos": [
+    "/photos/Tiffany_T_Wire_Bracelet_01.jpg",
+    "/photos/Tiffany_T_Wire_Bracelet_02.jpg",
+    "/photos/Tiffany_T_Wire_Bracelet_03.jpg",
+    "/photos/Tiffany_T_Wire_Bracelet_04.jpg"
+  ],
+  "desc": "Открытый браслет из коллекции T, разработанной Francesca Amfitheatrof в 2014 году. Два конца в форме буквы T, инкрустированные бриллиантами по периметру. Гладкая дужка, лаконичная посадка — браслет, который носится каждый день, не цепляется за одежду и сочетается с любыми другими украшениями.\n\nРазмер 16.5 — подходит на запястье 15.5–17 см. Клеймо T&Co. 750 Italy."
+}

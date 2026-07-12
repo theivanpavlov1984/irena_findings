@@ -1,0 +1,27 @@
+{
+  "id": "lv-keepall-bandouliere-graffiti",
+  "order": 33,
+  "cat": "bags",
+  "brand": "Louis Vuitton",
+  "collection": "Keepall",
+  "type": "Дорожные сумки",
+  "model": "Keepall Bandoulière",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Мультиколор граффити",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/LV_Keepall_Bandouliere_Graffiti_01.jpg",
+    "/photos/LV_Keepall_Bandouliere_Graffiti_02.jpg",
+    "/photos/LV_Keepall_Bandouliere_Graffiti_03.jpg"
+  ],
+  "desc": "Louis Vuitton Keepall Bandoulière — мультиколор граффити. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+}

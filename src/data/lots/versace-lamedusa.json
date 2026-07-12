@@ -1,0 +1,28 @@
+{
+  "id": "versace-lamedusa",
+  "order": 52,
+  "cat": "bags",
+  "brand": "Versace",
+  "collection": "La Medusa",
+  "type": "Сумки",
+  "model": "La Medusa",
+  "price": 180000,
+  "condition": "Отличное",
+  "conditionNote": "Отличное, без нюансов",
+  "status": "available",
+  "specs": {
+    "color": "Барокко чёрный/золото",
+    "complect": "коробка Fendace, пыльник Fendace, карточки бренда, дождевик",
+    "metal": "",
+    "size": "",
+    "serial": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/Versace_LaMedusa_01.jpg",
+    "/photos/Versace_LaMedusa_02.jpg",
+    "/photos/Versace_LaMedusa_03.jpg",
+    "/photos/Versace_LaMedusa_04.jpg"
+  ],
+  "desc": "Осенью 2021 года Донателла Версаче и Ким Джонс — тогда креативный директор Fendi — сделали то, чего в люксе раньше не делали. Они поменялись домами на один сезон: Версаче рисовала Fendi, Джонс рисовал Versace. Коллекция вышла под названием Fendace, прошла одним показом в Милане и выпускалась ровно один сезон — SS22. С тех пор не повторялась и больше не будет.\n\nЭто Versace La Medusa Small Top Handle в Fendace-исполнении: культовая медуза-фурнитура Versace, монограмма FF от Fendi, барочный принт с золотыми завитками — диалог двух домов в одной вещи.\n\nФормат: top handle с цепью через плечо, кожаный клапан с медузой, размер small. Помещается телефон, кошелёк, ключи, компактная косметичка. Носится в руку, на сгиб локтя или кросс-боди."
+}

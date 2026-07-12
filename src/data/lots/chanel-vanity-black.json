@@ -1,0 +1,28 @@
+{
+  "id": "chanel-vanity-black",
+  "order": 12,
+  "cat": "bags",
+  "brand": "Chanel",
+  "collection": "Vanity",
+  "type": "Мини-сумки",
+  "model": "Vanity Case",
+  "price": 260000,
+  "condition": "Хорошее",
+  "conditionNote": "Носилась бережно, есть лёгкие следы использования, ничего критичного",
+  "status": "available",
+  "specs": {
+    "color": "Чёрный",
+    "size": "17×10×8 см",
+    "complect": "пыльник, коробка",
+    "metal": "",
+    "serial": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/Chanel_Vanity_Black_01.jpg",
+    "/photos/Chanel_Vanity_Black_02.jpg",
+    "/photos/Chanel_Vanity_Black_03.jpg",
+    "/photos/Chanel_Vanity_Black_04.jpg"
+  ],
+  "desc": "Lambskin, классическая стёжка, верхняя ручка + съёмная цепь — носится и в руке, и через плечо. Размер компактный, около 17×10×8 см."
+}

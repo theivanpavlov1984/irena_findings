@@ -1,0 +1,28 @@
+{
+  "id": "lv-keepall-bandouliere-white-monogram",
+  "order": 34,
+  "cat": "bags",
+  "brand": "Louis Vuitton",
+  "collection": "Keepall",
+  "type": "Дорожные сумки",
+  "model": "Keepall Bandoulière",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Белый монограм",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/LV_Keepall_Bandouliere_White_Monogram_01.jpg",
+    "/photos/LV_Keepall_Bandouliere_White_Monogram_02.jpg",
+    "/photos/LV_Keepall_Bandouliere_White_Monogram_03.jpg",
+    "/photos/LV_Keepall_Bandouliere_White_Monogram_04.jpg"
+  ],
+  "desc": "Louis Vuitton Keepall Bandoulière — белый монограм. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+}

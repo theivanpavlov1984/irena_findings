@@ -1,0 +1,28 @@
+{
+  "id": "graff-butterfly-necklace",
+  "order": 20,
+  "cat": "jewelry",
+  "brand": "Graff",
+  "collection": "Butterfly",
+  "type": "Колье",
+  "model": "Butterfly",
+  "price": 420000,
+  "condition": "Новое",
+  "conditionNote": "Практически новое, без следов носки",
+  "status": "available",
+  "specs": {
+    "color": "Колье",
+    "metal": "Белое золото 18k",
+    "serial": "GP28991 выгравирован на изделии",
+    "complect": "фирменная коробка Graff, внутренний кожаный футляр и замшевый мешочек для хранения",
+    "size": ""
+  },
+  "auth": "jeweler",
+  "photos": [
+    "/photos/Graff_Butterfly_Necklace_01.jpg",
+    "/photos/Graff_Butterfly_Necklace_02.jpg",
+    "/photos/Graff_Butterfly_Necklace_03.jpg",
+    "/photos/Graff_Butterfly_Necklace_04.jpg"
+  ],
+  "desc": "Если серьги в коллекции Butterfly — это Pavé, а браслет — Silhouette, то эта подвеска объединяет обе техники в одном изделии. Внешние крылья — контурная Silhouette с бриллиантами по периметру. Внутренние — плотное паве с маркизовой огранкой. Anne-Eva Geffroy создала эту версию как флагман Butterfly Pendant — самую полную интерпретацию формы, через которую читается весь язык коллекции.\n\nРазмер мотива 14.5 мм, цепочка 40 см — лежит у основания шеи, как принцесс-длина. Носится одна или в layering поверх более длинной подвески.\n\nГлавное в этой модели — её редкость на вторичном рынке. Стандартные Butterfly Silhouette и Butterfly Pavé появляются на ресейле регулярно. Версия Silhouette with Pavé Centre — на порядок реже. Это премиальная вариация Butterfly, которую владелицы Graff не отдают часто — потому что это уже не базовая подвеска, а коллекционная позиция."
+}

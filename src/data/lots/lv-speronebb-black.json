@@ -1,0 +1,26 @@
+{
+  "id": "lv-speronebb-black",
+  "order": 43,
+  "cat": "bags",
+  "brand": "Louis Vuitton",
+  "collection": "Speroni",
+  "type": "Сумки",
+  "model": "Sperone BB",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Чёрный empreinte",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/LV_SperoneBB_Black_01.jpg",
+    "/photos/LV_SperoneBB_Black_02.jpg"
+  ],
+  "desc": "Louis Vuitton Sperone BB — чёрный empreinte. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+}

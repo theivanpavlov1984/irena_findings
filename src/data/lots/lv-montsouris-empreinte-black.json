@@ -1,0 +1,26 @@
+{
+  "id": "lv-montsouris-empreinte-black",
+  "order": 36,
+  "cat": "bags",
+  "brand": "Louis Vuitton",
+  "collection": "Montsouris",
+  "type": "Сумки",
+  "model": "Montsouris",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Empreinte чёрный",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/LV_Montsouris_Empreinte_Black_01.jpg",
+    "/photos/LV_Montsouris_Empreinte_Black_02.jpg"
+  ],
+  "desc": "Louis Vuitton Montsouris — empreinte чёрный. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+}

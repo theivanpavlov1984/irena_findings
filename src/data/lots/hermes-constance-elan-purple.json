@@ -1,0 +1,27 @@
+{
+  "id": "hermes-constance-elan-purple",
+  "order": 24,
+  "cat": "bags",
+  "brand": "Hermès",
+  "collection": "Constance",
+  "type": "Сумки",
+  "model": "Constance Élan",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Фиолетовый",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "expert",
+  "photos": [
+    "/photos/Hermes_Constance_Elan_Purple_02.jpg",
+    "/photos/Hermes_Constance_Elan_Purple_03.jpg",
+    "/photos/Hermes_Constance_Elan_Purple_04.jpg"
+  ],
+  "desc": "Hermès Constance Élan — фиолетовый. Перед передачей — ручная экспертиза профильного специалиста по Hermès."
+}

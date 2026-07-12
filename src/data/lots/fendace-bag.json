@@ -1,0 +1,28 @@
+{
+  "id": "fendace-bag",
+  "order": 18,
+  "cat": "bags",
+  "brand": "Versace × Fendi",
+  "collection": "",
+  "type": "Сумки",
+  "model": "Fendace",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Фиолетовый",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/Fendace_Bag_01.jpg",
+    "/photos/Fendace_Bag_02.jpg",
+    "/photos/Fendace_Bag_03.jpg",
+    "/photos/Fendace_Bag_04.jpg"
+  ],
+  "desc": "Versace × Fendi Fendace — фиолетовый. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+}

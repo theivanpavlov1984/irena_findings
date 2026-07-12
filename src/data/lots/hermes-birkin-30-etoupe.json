@@ -1,0 +1,28 @@
+{
+  "id": "hermes-birkin-30-etoupe",
+  "order": 22,
+  "cat": "bags",
+  "brand": "Hermès",
+  "collection": "Birkin",
+  "type": "Сумки",
+  "model": "Birkin 30",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Этуп, палладий",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "expert",
+  "photos": [
+    "/photos/Hermes_Birkin_30_Etoupe_01.jpg",
+    "/photos/Hermes_Birkin_30_Etoupe_02.jpg",
+    "/photos/Hermes_Birkin_30_Etoupe_03.jpg",
+    "/photos/Hermes_Birkin_30_Etoupe_04.jpg"
+  ],
+  "desc": "Hermès Birkin 30 — этуп, палладий. Перед передачей — ручная экспертиза профильного специалиста по Hermès."
+}

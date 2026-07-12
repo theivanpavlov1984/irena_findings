@@ -1,0 +1,28 @@
+{
+  "id": "chanel-vanity-black-studded",
+  "order": 15,
+  "cat": "bags",
+  "brand": "Chanel",
+  "collection": "Vanity",
+  "type": "Мини-сумки",
+  "model": "Vanity Case",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Чёрный, заклёпки",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/Chanel_Vanity_Black_Studded_01.jpg",
+    "/photos/Chanel_Vanity_Black_Studded_02.jpg",
+    "/photos/Chanel_Vanity_Black_Studded_03.jpg",
+    "/photos/Chanel_Vanity_Black_Studded_04.jpg"
+  ],
+  "desc": "Chanel Vanity Case — чёрный, заклёпки. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+}

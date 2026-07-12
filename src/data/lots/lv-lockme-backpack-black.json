@@ -1,0 +1,28 @@
+{
+  "id": "lv-lockme-backpack-black",
+  "order": 35,
+  "cat": "bags",
+  "brand": "Louis Vuitton",
+  "collection": "Lockme",
+  "type": "Рюкзаки",
+  "model": "Lockme Backpack",
+  "price": null,
+  "condition": "",
+  "conditionNote": "",
+  "status": "available",
+  "specs": {
+    "color": "Чёрный",
+    "metal": "",
+    "size": "",
+    "serial": "",
+    "complect": ""
+  },
+  "auth": "entrupy",
+  "photos": [
+    "/photos/LV_Lockme_Backpack_Black_01.jpg",
+    "/photos/LV_Lockme_Backpack_Black_02.jpg",
+    "/photos/LV_Lockme_Backpack_Black_03.jpg",
+    "/photos/LV_Lockme_Backpack_Black_04.jpg"
+  ],
+  "desc": "Louis Vuitton Lockme Backpack — чёрный. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+}
