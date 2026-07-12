@@ -241,7 +241,7 @@ function Card({ lot, fav, onFav, onOpen, i, tag = true }) {
 }
 
 /* ---------- product overlay (поверх хедера) ---------- */
-function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, onSearch }) {
+function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, goBrand, onSearch }) {
   useEffect(() => { const sbw = window.innerWidth - document.documentElement.clientWidth; document.body.style.overflow = "hidden"; if (sbw > 0) { document.body.style.paddingRight = sbw + "px"; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = sbw + "px"; } return () => { document.body.style.overflow = ""; document.body.style.paddingRight = ""; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = ""; }; }, []);
   const showRetail = lot.retail && (lot.retail - lot.price) / lot.retail >= 0.4;
   const tg = TELEGRAM + "?text=" + encodeURIComponent("Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model + " (лот " + lot.id + ").");
@@ -268,6 +268,8 @@ function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, onSea
         <button onClick={() => { onClose(); go("catalog", lot.cat); }} className="crumb">Каталог</button>
         <span style={{ fontFamily: body, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
         <button onClick={() => { onClose(); go("catalog", lot.cat); }} className="crumb">{catLabel}</button>
+        <span style={{ fontFamily: body, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
+        <button onClick={() => { if (goBrand) goBrand(lot.cat, lot.brand); }} className="crumb">{lot.brand}</button>
         <span style={{ fontFamily: body, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
         <span style={{ fontFamily: body, fontSize: 13, color: C.ink }}>{lot.model}</span>
       </nav>
@@ -605,19 +607,26 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
   const [open, setOpen] = useState(initialLot);
   const [searchOpen, setSearchOpen] = useState(false);
   const firstSync = useRef(true);
-  const pathFor = useCallback((v, c, o) => {
+  useEffect(() => {
+    const b = new URLSearchParams(window.location.search).get("brand");
+    if (b) setFilters((f) => ({ ...f, brands: [b] }));
+  }, []);
+  const pathFor = useCallback((v, c, o, f) => {
     if (o) return "/lot/" + o.id;
-    if (v === "catalog") return "/catalog/" + c;
+    if (v === "catalog") {
+      const b = f && f.brands && f.brands.length === 1 ? "?brand=" + encodeURIComponent(f.brands[0]) : "";
+      return "/catalog/" + c + b;
+    }
     if (v === "authenticity") return "/authenticity";
     if (v === "account") return "/account";
     return "/";
   }, []);
   useEffect(() => {
-    const path = pathFor(view, cat, open);
+    const path = pathFor(view, cat, open, filters);
     if (typeof window === "undefined") return;
     if (firstSync.current) { firstSync.current = false; window.history.replaceState({ view, cat, lotId: open ? open.id : null }, "", path); return; }
-    if (window.location.pathname !== path) window.history.pushState({ view, cat, lotId: open ? open.id : null }, "", path);
-  }, [view, cat, open, pathFor]);
+    if (window.location.pathname + window.location.search !== path) window.history.pushState({ view, cat, lotId: open ? open.id : null }, "", path);
+  }, [view, cat, open, filters, pathFor]);
   useEffect(() => {
     const onPop = () => {
       const p = window.location.pathname;
@@ -648,6 +657,13 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
 
   const onFav = useCallback((id) => setFavs((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; }), []);
   const go = (v, c) => { if (c) setCat(c); setView(v); setFiltersOpen(false); };
+  const goBrand = (c, brand) => {
+    setCat(c);
+    setFilters((f) => ({ ...f, brands: [brand] }));
+    setOpen(null);
+    setView("catalog");
+    setFiltersOpen(false);
+  };
   useEffect(() => { window.__scrollToId = (id) => { const el = document.getElementById(id); if (!el) return; const hd = document.querySelector(".site-head"); const off = window.innerWidth <= 900 && hd ? hd.offsetHeight + 6 : 10; window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - off, behavior: "smooth" }); }; window.__goSearchForm = () => { setOpen(null); setView("home"); setTimeout(() => window.__scrollToId && window.__scrollToId("sr"), 160); }; return () => { delete window.__goSearchForm; delete window.__scrollToId; }; }, []);
   const toggle = (key, val) => setFilters((f) => ({ ...f, [key]: f[key].includes(val) ? f[key].filter((x) => x !== val) : [...f[key], val] }));
 
@@ -871,7 +887,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
     {/* FOOTER */}
     <Footer go={go} />
 
-    {open && <ProductView key={open.id} lot={open} fav={favs.has(open.id)} favs={favs} onFav={onFav} onOpen={setOpen} onClose={() => setOpen(null)} onAuth={() => { setOpen(null); go("authenticity"); }} go={go} onSearch={() => setSearchOpen(true)} />}
+    {open && <ProductView key={open.id} goBrand={goBrand} lot={open} fav={favs.has(open.id)} favs={favs} onFav={onFav} onOpen={setOpen} onClose={() => setOpen(null)} onAuth={() => { setOpen(null); go("authenticity"); }} go={go} onSearch={() => setSearchOpen(true)} />}
     {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} favs={favs} onFav={onFav} onOpen={(l) => { setSearchOpen(false); setOpen(l); }} recent={recentSearches} onRemember={rememberSearch} onClearRecent={() => setRecentSearches([])} />}
   </div>);
 }
