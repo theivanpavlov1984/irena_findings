@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Store from "../../../src/IrenaStore.jsx";
 import { getLots, getLot, fmtPrice } from "../../../lib/lots.js";
+import { SITE } from "../../../lib/site.js";
 
 export function generateStaticParams() {
   return getLots().map((l) => ({ id: l.id }));
@@ -39,5 +40,23 @@ export default function LotPage({ params }) {
   const lots = getLots();
   const lot = lots.find((l) => l.id === params.id);
   if (!lot) notFound();
-  return <Store lots={lots} initialView="catalog" initialCat={lot.cat} initialLot={lot} />;
+
+  const catLabel = lot.cat === "bags" ? "Сумки" : "Украшения";
+  const crumbs = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Главная", item: SITE + "/" },
+      { "@type": "ListItem", position: 2, name: catLabel, item: SITE + "/catalog/" + lot.cat },
+      { "@type": "ListItem", position: 3, name: lot.brand, item: SITE + "/catalog/" + lot.cat + "?brand=" + encodeURIComponent(lot.brand) },
+      { "@type": "ListItem", position: 4, name: lot.model, item: SITE + "/lot/" + lot.id },
+    ],
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
+      <Store lots={lots} initialView="catalog" initialCat={lot.cat} initialLot={lot} />
+    </>
+  );
 }
