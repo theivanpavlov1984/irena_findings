@@ -249,7 +249,15 @@ function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, onSea
   const [tab, setTab] = useState("desc");
   const [ph, setPh] = useState(0);
   const [copied, setCopied] = useState(false);
-  const share = async () => { const d = { title: lot.brand + " " + lot.model, text: lot.brand + " " + lot.model + " — Irena | Находки", url: window.location.href }; if (navigator.share) { try { await navigator.share(d); } catch (e) {} } else if (navigator.clipboard) { try { await navigator.clipboard.writeText(d.text + " " + d.url); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch (e) {} } };
+  const share = async () => {
+    const url = window.location.href;
+    const title = lot.brand + " " + lot.model + " — " + fmt(lot.price);
+    if (navigator.share) {
+      try { await navigator.share({ title, url }); } catch (e) {}
+    } else if (navigator.clipboard) {
+      try { await navigator.clipboard.writeText(title + "\n" + url); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch (e) {}
+    }
+  };
   const related = [...LOTS.filter((l) => l.id !== lot.id && l.cat === lot.cat), ...LOTS.filter((l) => l.id !== lot.id && l.cat !== lot.cat)].slice(0, 4);
   return (<div style={{ position: "fixed", inset: 0, zIndex: 120, background: C.bg, overflowY: "auto", animation: "fadeIn .35s ease" }}>
     <SiteHeader go={(v, c) => { onClose(); go(v, c); }} favs={favs} onSearch={onSearch} sticky />
