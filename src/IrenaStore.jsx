@@ -1,5 +1,5 @@
+"use client";
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
-const lotModules = import.meta.glob("./data/lots/*.json", { eager: true });
 import { ArrowRight, X, ChevronDown, ChevronLeft, ChevronRight, Instagram, Send, SlidersHorizontal, Share2 } from "lucide-react";
 
 /* IRENA · Находки — прототип v5 */
@@ -71,10 +71,7 @@ const label = { fontFamily: body, fontSize: 11, letterSpacing: 2.4, textTransfor
 const PHOTOS = {};
 
 const SPEC_LABELS = { color: "Цвет", metal: "Металл", size: "Размер", serial: "Серийный номер", complect: "Комплект" };
-const LOTS = Object.values(lotModules)
-  .map((m) => (m && m.default ? m.default : m))
-  .sort((a, b) => (a.order || 0) - (b.order || 0))
-  .map((l) => ({ ...l, metal: (l.specs && l.specs.metal) || "" }));
+let LOTS = [];
 const fmt = (n) => n == null ? "Цена по запросу" : new Intl.NumberFormat("ru-RU").format(n) + " \u20bd";
 const STATUS = { available: "В наличии", reserved: "Бронь", in_transit: "В пути" };
 const MARQUEE = ["Chanel", "Louis Vuitton", "Van Cleef & Arpels", "Cartier", "Tiffany & Co.", "Bvlgari", "Dior", "Bottega Veneta", "Hermès"];
@@ -589,14 +586,44 @@ function Footer({ go }) {
   );
 }
 
-export default function App() {
-  const [view, setView] = useState("home");
-  const [cat, setCat] = useState("bags");
+export default function App({ lots = [], initialView = "home", initialCat = "bags", initialLot = null }) {
+  LOTS = lots;
+  const [view, setView] = useState(initialView);
+  const [cat, setCat] = useState(initialCat);
   const [sort, setSort] = useState("new");
   const [filters, setFilters] = useState({ brands: [], collections: [], types: [], conditions: [], metals: [], price: [] });
   const [favs, setFavs] = useState(new Set());
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(initialLot);
   const [searchOpen, setSearchOpen] = useState(false);
+  const firstSync = useRef(true);
+  const pathFor = useCallback((v, c, o) => {
+    if (o) return "/lot/" + o.id;
+    if (v === "catalog") return "/catalog/" + c;
+    if (v === "authenticity") return "/authenticity";
+    if (v === "account") return "/account";
+    return "/";
+  }, []);
+  useEffect(() => {
+    const path = pathFor(view, cat, open);
+    if (typeof window === "undefined") return;
+    if (firstSync.current) { firstSync.current = false; window.history.replaceState({ view, cat, lotId: open ? open.id : null }, "", path); return; }
+    if (window.location.pathname !== path) window.history.pushState({ view, cat, lotId: open ? open.id : null }, "", path);
+  }, [view, cat, open, pathFor]);
+  useEffect(() => {
+    const onPop = () => {
+      const p = window.location.pathname;
+      const mLot = p.match(/^\/lot\/(.+)$/);
+      if (mLot) { const l = LOTS.find((x) => x.id === mLot[1]); setOpen(l || null); if (l) setCat(l.cat); return; }
+      setOpen(null);
+      const mCat = p.match(/^\/catalog\/(bags|jewelry)$/);
+      if (mCat) { setCat(mCat[1]); setView("catalog"); return; }
+      if (p === "/authenticity") { setView("authenticity"); return; }
+      if (p === "/account") { setView("account"); return; }
+      setView("home");
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
   const [filtersOpen, setFiltersOpen] = useState(false);
   useEffect(() => { if (filtersOpen) { const sbw = window.innerWidth - document.documentElement.clientWidth; document.body.style.overflow = "hidden"; if (sbw > 0) { document.body.style.paddingRight = sbw + "px"; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = sbw + "px"; } } else { document.body.style.overflow = ""; document.body.style.paddingRight = ""; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = ""; } return () => { document.body.style.overflow = ""; document.body.style.paddingRight = ""; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = ""; }; }, [filtersOpen]);
   const [recentSearches, setRecentSearches] = useState([]);
