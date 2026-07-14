@@ -43,8 +43,8 @@ const head = "'Cyrene', 'Oranienbaum', serif";
 const body = "'Cyrene', 'Montserrat', sans-serif";
 const mont = "'Montserrat', sans-serif";
 const JBANNER = "/img/jbanner.svg";
-const BAG_BRANDS = ["Chanel", "Hermès", "Louis Vuitton", "Dior", "Gucci", "Prada", "Bottega Veneta", "Saint Laurent", "Celine", "Goyard", "Fendi", "Loewe", "Balenciaga", "Givenchy", "Valentino", "Miu Miu", "Chloé", "Delvaux"];
-const JEWELRY_BRANDS = ["Cartier", "Van Cleef & Arpels", "Bvlgari", "Tiffany & Co.", "Graff", "Chopard", "Chaumet", "Boucheron", "Messika", "Pomellato", "Piaget", "Harry Winston", "Mikimoto", "Damiani"];
+const BAG_BRANDS = ["Chanel", "Hermès", "Louis Vuitton", "Versace", "Versace × Fendi", "Dior", "Gucci", "Prada", "Bottega Veneta", "Saint Laurent", "Celine", "Goyard", "Fendi", "Loewe", "Balenciaga", "Givenchy", "Valentino", "Miu Miu", "Chloé", "Delvaux"];
+const JEWELRY_BRANDS = ["Cartier", "Louis Vuitton", "Van Cleef & Arpels", "Bvlgari", "Tiffany & Co.", "Graff", "Chopard", "Chaumet", "Boucheron", "Messika", "Pomellato", "Piaget", "Harry Winston", "Mikimoto", "Damiani"];
 const BAG_COLLECTIONS = ["Classic Flap", "2.55", "Boy", "Vanity", "Wallet on Chain", "19", "Gabrielle", "Coco Handle", "Keepall", "Speedy", "Neverfull", "Alma", "Capucines", "OnTheGo", "Pochette", "Lady Dior", "Saddle", "Book Tote", "Birkin", "Kelly", "Constance", "Dionysus", "GG Marmont", "Jackie", "Jodie", "Cassette", "Puzzle"];
 const JEWELRY_COLLECTIONS = ["Alhambra", "Love", "Juste un Clou", "Panthère", "Trinity", "Clash", "Serpenti", "B.zero1", "Divas' Dream", "Tiffany T", "Tiffany Lock", "Happy Diamonds", "Possession", "Plume"];
 const BAG_TYPES = ["Мини-сумки", "Кросс-боди", "Сумки через плечо", "Тоут", "Рюкзаки", "Дорожные"];
@@ -174,7 +174,7 @@ const COLLECTIONS = [
   { n: "Love", brand: "Cartier", cat: "jewelry", img: "/img/img5.jpg" },
   { n: "Tiffany T", brand: "Tiffany & Co.", cat: "jewelry", img: "/img/img6.jpg" },
 ];
-function Collections({ go }) {
+function Collections({ go, goCollection }) {
   const [hi, setHi] = useState(null);
   const [archTop, setArchTop] = useState(0);
   const secRef = useRef(null);
@@ -205,7 +205,7 @@ function Collections({ go }) {
       </div>
       <div style={{ position: "relative", zIndex: 1, borderTop: "1px solid " + C.line }}>
         {COLLECTIONS.map((x, i) => (
-          <div key={x.n} ref={(el) => (rowsRef.current[i] = el)} onMouseEnter={() => enter(i)} onMouseLeave={() => setHi(null)} onClick={() => go("catalog", x.cat)} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, padding: "clamp(18px,2.4vw,30px) 0", borderBottom: "1px solid " + C.line, cursor: "pointer", transition: "padding-left .35s ease, opacity .35s ease", paddingLeft: hi === i ? 14 : 0, opacity: hi === null || hi === i ? 1 : 0.4 }}>
+          <div key={x.n} ref={(el) => (rowsRef.current[i] = el)} onMouseEnter={() => enter(i)} onMouseLeave={() => setHi(null)} onClick={() => (goCollection ? goCollection(x.cat, x.n, x.brand) : go("catalog", x.cat))} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, padding: "clamp(18px,2.4vw,30px) 0", borderBottom: "1px solid " + C.line, cursor: "pointer", transition: "padding-left .35s ease, opacity .35s ease", paddingLeft: hi === i ? 14 : 0, opacity: hi === null || hi === i ? 1 : 0.4 }}>
             <div style={{ display: "flex", alignItems: "baseline", gap: "clamp(14px,2vw,30px)", minWidth: 0 }}>
               <span style={{ fontFamily: "'CyreneNum','Montserrat',sans-serif", fontSize: 15, color: C.ink2, letterSpacing: ".02em", flexShrink: 0 }}>{String(i + 1).padStart(2, "0")}/</span>
               <span style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(24px,3.4vw,46px)", color: C.ink, lineHeight: 1.05 }}>{x.n} <span style={{ color: C.ink2 }}>by</span> {x.brand}</span>
@@ -608,14 +608,18 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
   const [searchOpen, setSearchOpen] = useState(false);
   const firstSync = useRef(true);
   useEffect(() => {
-    const b = new URLSearchParams(window.location.search).get("brand");
-    if (b) setFilters((f) => ({ ...f, brands: [b] }));
+    const q = new URLSearchParams(window.location.search);
+    const b = q.get("brand");
+    const col = q.get("collection");
+    if (b || col) setFilters((f) => ({ ...f, brands: b ? [b] : f.brands, collections: col ? [col] : f.collections }));
   }, []);
   const pathFor = useCallback((v, c, o, f) => {
     if (o) return "/lot/" + o.id;
     if (v === "catalog") {
-      const b = f && f.brands && f.brands.length === 1 ? "?brand=" + encodeURIComponent(f.brands[0]) : "";
-      return "/catalog/" + c + b;
+      const q = [];
+      if (f && f.collections && f.collections.length === 1) q.push("collection=" + encodeURIComponent(f.collections[0]));
+      if (f && f.brands && f.brands.length === 1) q.push("brand=" + encodeURIComponent(f.brands[0]));
+      return "/catalog/" + c + (q.length ? "?" + q.join("&") : "");
     }
     if (v === "authenticity") return "/authenticity";
     if (v === "account") return "/account";
@@ -657,6 +661,13 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
 
   const onFav = useCallback((id) => setFavs((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; }), []);
   const go = (v, c) => { if (c) setCat(c); setView(v); setFiltersOpen(false); };
+  const goCollection = (c, collection, brand) => {
+    setCat(c);
+    setFilters((f) => ({ ...f, collections: [collection], brands: brand ? [brand] : [] }));
+    setOpen(null);
+    setView("catalog");
+    setFiltersOpen(false);
+  };
   const goBrand = (c, brand) => {
     setCat(c);
     setFilters((f) => ({ ...f, brands: [brand] }));
@@ -815,7 +826,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
       </section>
 
       {/* COLLECTIONS */}
-      <Collections go={go} />
+      <Collections go={go} goCollection={goCollection} />
 
       {/* AUTHENTICITY TEASER */}
       <section onClick={() => go("authenticity")} aria-label="Подлинность" style={{ cursor: "pointer", position: "relative", left: "50%", transform: "translateX(-50%)", width: "100vw", maxWidth: "100vw", height: "clamp(400px,46vw,560px)", overflow: "hidden", margin: "clamp(44px,6vw,86px) 0" }}>
