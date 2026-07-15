@@ -5,17 +5,14 @@
   "brand": "Louis Vuitton",
   "collection": "Keepall",
   "type": "Дорожные сумки",
-  "model": "Keepall Bandoulière",
-  "price": null,
-  "condition": "",
-  "conditionNote": "",
+  "model": "Keepall Patchwork / My LV World Tour 50",
+  "price": 270000,
+  "condition": "Отличное",
+  "conditionNote": "В отличном состоянии, фактически новая.",
   "status": "available",
   "specs": {
     "color": "Мультиколор граффити",
-    "metal": "",
-    "size": "",
-    "serial": "",
-    "complect": ""
+    "complect": "Только сумка"
   },
   "auth": "entrupy",
   "photos": [
@@ -23,5 +20,5 @@
     "/photos/LV_Keepall_Bandouliere_Graffiti_02.jpg",
     "/photos/LV_Keepall_Bandouliere_Graffiti_03.jpg"
   ],
-  "desc": "Louis Vuitton Keepall Bandoulière — мультиколор граффити. Перед передачей — аппаратная проверка Entrupy с цифровым сертификатом."
+  "desc": "За 90 лет существования модель стала холстом для большинства громких релизов LV. Лимитированные коллекции снимаются с производства за один-два сезона, после чего найти их можно только на ресейле - и цены там растут год от года.\n\nPatchwork / My LV World Tour 50 — яркая колорблок-коллекция, неоновый жёлтый + голубой"
 }
