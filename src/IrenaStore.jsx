@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from "react"
 import NextImage from "next/image";
 import { ArrowRight, X, ChevronDown, ChevronLeft, ChevronRight, Instagram, Send, SlidersHorizontal, Share2 } from "lucide-react";
 
-/* IRENA · Находки — прототип v5 */
+/* IRENA · Находки – прототип v5 */
 
 const TELEGRAM = "https://t.me/irenabrow";        // личка Ирины: бронь, заявки, вопросы
 const TELEGRAM_CHANNEL = "https://t.me/irena_findings"; // канал «Irena | Находки»
@@ -247,7 +247,7 @@ function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, goBra
   const [lotUrl, setLotUrl] = useState("");
   useEffect(() => { setLotUrl(window.location.origin + "/lot/" + lot.id); }, [lot.id]);
   const tg = TELEGRAM + "?text=" + encodeURIComponent(
-    "Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model + " — " + fmt(lot.price) + "." +
+    "Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model + " – " + fmt(lot.price) + "." +
     (lotUrl ? "\n" + lotUrl : "")
   );
   const catLabel = lot.cat === "bags" ? "Сумки" : "Украшения";
@@ -256,7 +256,7 @@ function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, goBra
   const [copied, setCopied] = useState(false);
   const share = async () => {
     const url = window.location.href;
-    const title = lot.brand + " " + lot.model + " — " + fmt(lot.price);
+    const title = lot.brand + " " + lot.model + " – " + fmt(lot.price);
     if (navigator.share) {
       try { await navigator.share({ title, url }); } catch (e) {}
     } else if (navigator.clipboard) {
@@ -290,13 +290,13 @@ function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, goBra
             <div style={{ fontFamily: body, fontWeight: 600, fontSize: 24, color: C.ink }}>{fmt(lot.price)}</div>
             <span style={{ ...label, display: "inline-flex", alignItems: "center", gap: 7 }}><span style={{ width: 7, height: 7, borderRadius: 8, background: lot.status === "available" ? "#6E9B6A" : lot.status === "reserved" ? "#B4503C" : C.gold }} />{STATUS[lot.status]}</span>
           </div>
-          {showRetail && <div style={{ fontFamily: body, fontSize: 13, color: C.ink2, marginTop: 8 }}>Ретейл в бутике — около {fmt(lot.retail)}</div>}
+          {showRetail && <div style={{ fontFamily: body, fontSize: 13, color: C.ink2, marginTop: 8 }}>Ретейл в бутике – около {fmt(lot.retail)}</div>}
           <div style={{ display: "flex", gap: 12, marginTop: 28, flexWrap: "wrap" }}>
             <a href={tg} target="_blank" rel="noreferrer" style={btnInk} className="btn-primary">Забронировать у Ирины <ArrowRight size={15} /></a>
             <button onClick={() => onFav(lot.id)} style={{ ...btnGhost, padding: "14px 22px" }} className="btn-secondary"><HeartIcon size={15} filled={fav} /> {fav ? "В избранном" : "Сохранить"}</button>
             <button onClick={share} aria-label="Поделиться" className="btn-secondary" style={{ ...btnGhost, padding: "14px 18px" }}><Share2 size={15} strokeWidth={1.5} /> {copied ? "Скопировано" : "Поделиться"}</button>
           </div>
-          <div style={{ fontFamily: body, fontWeight: 300, fontSize: 12.5, lineHeight: 1.65, color: C.ink2, marginTop: 14, maxWidth: 460 }}>Пошлины и доставка включены в цену. Бронь ни к чему не обязывает — Ирина подтвердит наличие и ответит лично. <span onClick={() => { onClose(); go("home"); setTimeout(() => window.__scrollToId && window.__scrollToId("how"), 180); }} style={{ color: C.accent, cursor: "pointer", whiteSpace: "nowrap" }} className="hov">Как это устроено →</span></div>
+          <div style={{ fontFamily: body, fontWeight: 300, fontSize: 12.5, lineHeight: 1.65, color: C.ink2, marginTop: 14, maxWidth: 460 }}>Пошлины и доставка включены в цену. Бронь ни к чему не обязывает – Ирина подтвердит наличие и ответит лично. <span onClick={() => { onClose(); go("home"); setTimeout(() => window.__scrollToId && window.__scrollToId("how"), 180); }} style={{ color: C.accent, cursor: "pointer", whiteSpace: "nowrap" }} className="hov">Как это устроено →</span></div>
           <div style={{ marginTop: 36 }}>
             <div className="pv-tabs" style={{ display: "flex", gap: 26, borderBottom: "1px solid " + C.line }}>
               {[["desc", "Описание"], ["specs", "Характеристики"], ["auth", "Проверка"]].map(([k, t]) => (
@@ -304,11 +304,11 @@ function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, goBra
             </div>
             {tab === "desc" && (<div style={{ marginTop: 22 }}>{String(lot.desc).split("\n\n").map((para, pi) => (<p key={pi} style={{ fontFamily: mont, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink, marginTop: pi ? 16 : 0 }}>{para}</p>))}</div>)}
             {tab === "specs" && (<div style={{ marginTop: 8 }}>
-              {Object.entries(lot.specs || {}).filter(([, v]) => v).map(([k, v]) => (<div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 20, padding: "13px 0", borderBottom: "1px solid " + C.line, fontFamily: mont, fontSize: 14 }}><span style={{ color: C.ink2 }}>{SPEC_LABELS[k] || k}</span><span style={{ color: C.ink, textAlign: "right" }}>{v}</span></div>))}
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "13px 0", fontFamily: mont, fontSize: 14 }}><span style={{ color: C.ink2 }}>Состояние</span><span style={{ textAlign: "right" }}>{lot.conditionNote || lot.condition || "уточняется"}</span></div>
+              {Object.entries(lot.specs || {}).filter(([, v]) => v).map(([k, v]) => (<div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 20, padding: "13px 0", borderBottom: "1px solid " + C.line, fontFamily: body, fontSize: 14 }}><span style={{ color: C.ink2 }}>{SPEC_LABELS[k] || k}</span><span style={{ color: C.ink, textAlign: "right" }}>{v}</span></div>))}
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "13px 0", fontFamily: body, fontSize: 14 }}><span style={{ color: C.ink2 }}>Состояние</span><span style={{ textAlign: "right" }}>{lot.conditionNote || lot.condition || "уточняется"}</span></div>
             </div>)}
             {tab === "auth" && (<div style={{ marginTop: 22 }}>
-              <p style={{ fontFamily: body, fontWeight: 300, fontSize: 15, lineHeight: 1.7, color: C.ink2, margin: "0 0 18px", maxWidth: 460 }}>{lot.auth === "entrupy" ? "Перед передачей сумка проходит аппаратную проверку Entrupy — с цифровым сертификатом, который можно проверить самостоятельно." : lot.auth === "expert" ? "Hermès проверяет профильный специалист вручную: кожа, строчка, клейма, фурнитура. Entrupy для Hermès не применяется — только живая экспертиза." : "Перед передачей украшение проверяет доверенный ювелир в Москве: металл, пробы, камни и клейма."} Гарантия подлинности действует всегда.</p>
+              <p style={{ fontFamily: body, fontWeight: 300, fontSize: 15, lineHeight: 1.7, color: C.ink2, margin: "0 0 18px", maxWidth: 460 }}>{lot.auth === "entrupy" ? "Перед передачей сумка проходит аппаратную проверку Entrupy – с цифровым сертификатом, который можно проверить самостоятельно." : lot.auth === "expert" ? "Hermès проверяет профильный специалист вручную: кожа, строчка, клейма, фурнитура. Entrupy для Hermès не применяется – только живая экспертиза." : "Перед передачей украшение проверяет доверенный ювелир в Москве: металл, пробы, камни и клейма."} Гарантия подлинности действует всегда.</p>
               <button onClick={onAuth} style={{ width: "100%", display: "flex", gap: 16, alignItems: "center", textAlign: "left", background: C.card, border: "none", cursor: "pointer", padding: 14 }}>
                 <div style={{ width: 80, flexShrink: 0 }}><Photo src={lot.auth === "entrupy" ? IMG.device : IMG.inspector} ratio="1/1" /></div>
                 <div><div style={label}>Подлинность</div><div style={{ fontFamily: head, fontWeight: 500, fontSize: 17, color: C.ink, marginTop: 4, lineHeight: 1.15 }}>{lot.auth === "entrupy" ? "Проверка Entrupy" : lot.auth === "expert" ? "Экспертиза специалиста" : "Экспертиза ювелира"}</div><div style={{ ...label, marginTop: 8, color: C.accent }}>Как мы проверяем →</div></div>
@@ -340,7 +340,7 @@ function SearchRequest() {
         Ищу {blank("brand", "бренд")} , модель {blank("model", "какую")} ,<br className="mad-br" />в цвете {blank("color", "каком")} , с бюджетом до {blank("budget", "суммы")} ₽.
       </p>
       <div style={{ margin: "clamp(26px,3.6vw,40px) auto 0", maxWidth: 560 }}>
-        <input value={f.link} onChange={(e) => setF({ ...f, link: e.target.value })} placeholder="Видели её где-то? Оставьте ссылку или пару слов — не обязательно" className="field" style={{ width: "100%", background: "none", border: "none", borderBottom: "1px solid " + C.line, padding: "12px 2px", fontSize: 14.5, color: C.ink, fontFamily: body, fontWeight: 300, outline: "none", textAlign: "center" }} />
+        <input value={f.link} onChange={(e) => setF({ ...f, link: e.target.value })} placeholder="Видели её где-то? Оставьте ссылку или пару слов – не обязательно" className="field" style={{ width: "100%", background: "none", border: "none", borderBottom: "1px solid " + C.line, padding: "12px 2px", fontSize: 14.5, color: C.ink, fontFamily: body, fontWeight: 300, outline: "none", textAlign: "center" }} />
       </div>
       <p style={{ fontFamily: body, fontWeight: 300, fontSize: 15, lineHeight: 1.7, color: C.ink2, margin: "clamp(24px,3.4vw,36px) auto 0", maxWidth: 460 }}>Ирина подберёт варианты под запрос, проверит подлинность и пришлёт фото до покупки.</p>
       <a href={TELEGRAM + "?text=" + text} target="_blank" rel="noreferrer" style={{ ...btnInk, marginTop: "clamp(26px,3.6vw,40px)" }} className="btn-primary">Отправить запрос Ирине <ArrowRight size={15} /></a>
@@ -375,7 +375,7 @@ function Authenticity({ go }) {
           <div style={{ ...label, color: C.accent }}>Подлинность</div>
           <h1 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(44px,8vw,116px)", lineHeight: 0.98, margin: "18px 0 0", color: C.ink }}>Двойная<br />проверка,<br /><span style={{ color: C.accent }}>а не обещание</span></h1>
         </div>
-        <p style={{ fontFamily: body, fontWeight: 300, fontSize: "clamp(16px,1.7vw,19px)", lineHeight: 1.75, color: C.ink2, margin: 0, paddingBottom: 10, maxWidth: 440 }}>Подделка — главный страх при покупке люкса с рук. Мы закрываем его на двух уровнях: аппарат Entrupy для сумок и экспертиза доверенного ювелира — для украшений.</p>
+        <p style={{ fontFamily: body, fontWeight: 300, fontSize: "clamp(16px,1.7vw,19px)", lineHeight: 1.75, color: C.ink2, margin: 0, paddingBottom: 10, maxWidth: 440 }}>Подделка – главный страх при покупке люкса с рук. Мы закрываем его на двух уровнях: аппарат Entrupy для сумок и экспертиза доверенного ювелира – для украшений.</p>
       </div>
     </section>
 
@@ -396,8 +396,8 @@ function Authenticity({ go }) {
     </section>
 
     <section className="wrap" style={{ maxWidth: 1340, margin: "0 auto", padding: "clamp(60px,9vw,130px) 0", display: "grid", gap: "clamp(70px,11vw,150px)" }}>
-      <Chapter num="01" img={ENTRUPY_BOX} alt="Аппарат Entrupy" tag="Сумки" title="Аппарат Entrupy" text="Entrupy — система аутентификации, которой пользуются ресейл-площадки и бутики по всему миру. Микроскопическая камера снимает структуру кожи, строчку, фурнитуру и логотипы с увеличением, недоступным глазу." text2="Снимки сравниваются с базой из миллионов подлинных образцов, и алгоритм выносит вердикт с точностью около 99%. Итог — цифровой сертификат с QR-кодом." />
-      <Chapter num="02" img={IMG.inspector} alt="Экспертиза ювелира" tag="Украшения" title="Экспертиза ювелира" reverse text="Украшения проверяет доверенный ювелир в Москве: металл, пробы, камни и клейма — в том числе на приборе Diamond Inspector. Перед отправкой каждое изделие полируется." />
+      <Chapter num="01" img={ENTRUPY_BOX} alt="Аппарат Entrupy" tag="Сумки" title="Аппарат Entrupy" text="Entrupy – система аутентификации, которой пользуются ресейл-площадки и бутики по всему миру. Микроскопическая камера снимает структуру кожи, строчку, фурнитуру и логотипы с увеличением, недоступным глазу." text2="Снимки сравниваются с базой из миллионов подлинных образцов, и алгоритм выносит вердикт с точностью около 99%. Итог – цифровой сертификат с QR-кодом." />
+      <Chapter num="02" img={IMG.inspector} alt="Экспертиза ювелира" tag="Украшения" title="Экспертиза ювелира" reverse text="Украшения проверяет доверенный ювелир в Москве: металл, пробы, камни и клейма – в том числе на приборе Diamond Inspector. Перед отправкой каждое изделие полируется." />
     </section>
 
     <section style={{ background: C.panel, position: "relative", left: "50%", transform: "translateX(-50%)", width: "100vw", maxWidth: "100vw", overflow: "hidden" }}>
@@ -405,7 +405,7 @@ function Authenticity({ go }) {
         <div>
           <div style={{ ...label, color: C.accent }}>Сертификат</div>
           <h3 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(26px,3.4vw,46px)", lineHeight: 1.06, margin: "14px 0 0", color: C.ink }}>Паспорт подлинности к каждой сумке</h3>
-          <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, marginTop: 16, maxWidth: 420 }}>После проверки Entrupy выдаёт цифровой сертификат с фото, брендом, материалом и QR. Подлинность можно подтвердить самостоятельно на entrupy.com — ещё до получения сумки.</p>
+          <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, marginTop: 16, maxWidth: 420 }}>После проверки Entrupy выдаёт цифровой сертификат с фото, брендом, материалом и QR. Подлинность можно подтвердить самостоятельно на entrupy.com – ещё до получения сумки.</p>
         </div>
         <div style={{ transform: "rotate(-2.5deg)", boxShadow: "0 44px 80px -36px rgba(42,36,34,.45)", background: C.card, padding: "clamp(10px,1.6vw,20px)" }}>
           <Photo src={IMG.cert} alt="Сертификат Entrupy" ratio="3/2" fit="contain" />
@@ -415,10 +415,10 @@ function Authenticity({ go }) {
 
     <section className="wrap" style={{ maxWidth: 900, margin: "0 auto", padding: "clamp(70px,11vw,150px) 0", textAlign: "center" }}>
       <div style={{ ...label, color: C.accent }}>Возвраты</div>
-      <h2 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(30px,4.4vw,58px)", lineHeight: 1.12, margin: "18px 0 0", color: C.ink }}>Возврата «передумала» нет.<br /><span style={{ color: C.accent }}>Гарантия подлинности — всегда.</span></h2>
+      <h2 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(30px,4.4vw,58px)", lineHeight: 1.12, margin: "18px 0 0", color: C.ink }}>Возврата «передумала» нет.<br /><span style={{ color: C.accent }}>Гарантия подлинности – всегда.</span></h2>
       <div className="two" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(20px,3.4vw,48px)", textAlign: "left", marginTop: "clamp(30px,4.6vw,54px)" }}>
         <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.75, color: C.ink2, margin: 0 }}>Каждая вещь привозится под конкретный заказ и проходит проверку подлинности, поэтому возврат «передумала» мы не делаем. Это честное условие премиального ресейла, и мы проговариваем его до покупки.</p>
-        <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.75, color: C.ink2, margin: 0 }}>Но если подлинность когда-либо вызовет сомнение или вещь не совпадёт с тем, что мы показали и обсудили, — вернём деньги или заменим. Гарантия подлинности действует всегда.</p>
+        <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.75, color: C.ink2, margin: 0 }}>Но если подлинность когда-либо вызовет сомнение или вещь не совпадёт с тем, что мы показали и обсудили, – вернём деньги или заменим. Гарантия подлинности действует всегда.</p>
       </div>
     </section>
 
@@ -440,7 +440,7 @@ function Account({ favs, onFav, onOpen, go }) {
   const items = LOTS.filter((l) => favs.has(l.id));
   const demo = LOTS[0];
   const steps = [
-    ["Заявка у Ирины", "Получили запрос — Ирина скоро напишет вам лично."],
+    ["Заявка у Ирины", "Получили запрос – Ирина скоро напишет вам лично."],
     ["Согласование", "Подтверждаем вещь, комплект и стоимость, выставляем счёт."],
     ["Выкуп и проверка", "Выкупаем у источника и проверяем подлинность: Entrupy или ювелир."],
     ["Передача", "Привозим и передаём лично или застрахованной доставкой."],
@@ -451,9 +451,9 @@ function Account({ favs, onFav, onOpen, go }) {
 
     {!signedIn ? (
       <div style={{ maxWidth: 460, margin: "0 auto", textAlign: "center" }}>
-        <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, margin: "0 0 32px" }}>Ваше личное пространство: заявки, что сейчас в работе, и лист ожидания вещей, которые ищем под вас. Вход через <span style={{ fontFamily: mont }}>Telegram</span> — без логинов и паролей.</p>
+        <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, margin: "0 0 32px" }}>Ваше личное пространство: заявки, что сейчас в работе, и лист ожидания вещей, которые ищем под вас. Вход через <span style={{ fontFamily: mont }}>Telegram</span> – без логинов и паролей.</p>
         <button onClick={() => setSignedIn(true)} style={{ ...btnInk, width: "100%", justifyContent: "center", gap: 10 }} className="btn-primary"><svg width="22" height="22" viewBox="0 0 24 24" fill={C.bg} xmlns="http://www.w3.org/2000/svg"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z" /></svg> Войти через Telegram</button>
-        <p style={{ fontFamily: body, fontWeight: 300, fontSize: 13, lineHeight: 1.7, color: C.ink2, marginTop: 28 }}>Чтобы написать Ирине, регистрация не нужна — кабинет можно завести после первого обращения.</p>
+        <p style={{ fontFamily: body, fontWeight: 300, fontSize: 13, lineHeight: 1.7, color: C.ink2, marginTop: 28 }}>Чтобы написать Ирине, регистрация не нужна – кабинет можно завести после первого обращения.</p>
       </div>
     ) : (<div>
       <div style={{ display: "flex", alignItems: "center", gap: 16, paddingBottom: 26, borderBottom: "1px solid " + C.line }}>
@@ -544,7 +544,7 @@ function SearchOverlay({ onClose, favs, onFav, onOpen, recent = [], onRemember, 
       ) : (
         <div style={{ marginTop: "clamp(40px,7vw,80px)", textAlign: "center", maxWidth: 560, marginInline: "auto" }}>
           <h3 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(24px,3.2vw,40px)", lineHeight: 1.15, margin: 0, color: C.ink }}>Сейчас такого нет в подборке</h3>
-          <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, marginTop: 16 }}>Но это не значит, что мы не найдём. Оставьте запрос — Ирина подберёт варианты под вас и проверит подлинность.</p>
+          <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, marginTop: 16 }}>Но это не значит, что мы не найдём. Оставьте запрос – Ирина подберёт варианты под вас и проверит подлинность.</p>
           <button onClick={() => { onClose(); window.__goSearchForm && window.__goSearchForm(); }} style={{ ...btnInk, marginTop: 26 }} className="btn-primary">Найдём и привезём <ArrowRight size={15} /></button>
         </div>
       )}
@@ -789,9 +789,9 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
             <div style={{ opacity: loaded ? 1 : 0, animation: loaded ? "rise 1s cubic-bezier(.16,.8,.3,1) both" : "none" }}>
               <div style={{ ...label, color: C.accent, marginBottom: 22 }}>Под заказ · с проверкой подлинности</div>
               <h1 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(46px,7vw,104px)", lineHeight: 1.0, margin: 0, color: C.ink }}>Находки,<br />отобранные<br />лично</h1>
-              <p style={{ fontFamily: body, fontWeight: 300, fontSize: 17, lineHeight: 1.7, color: C.ink2, margin: "28px 0 40px", maxWidth: 380 }}>Подлинные сумки и украшения с азиатского ресейла — отбор Ирины, проверка Entrupy и ювелира.</p>
+              <p style={{ fontFamily: body, fontWeight: 300, fontSize: 17, lineHeight: 1.7, color: C.ink2, margin: "28px 0 40px", maxWidth: 380 }}>Подлинные сумки и украшения под заказ – отбор Ирины, проверка Entrupy и ювелира.</p>
               <CircleArrow label="Смотреть подборку" onClick={() => go("catalog", "bags")} />
-              <div style={{ marginTop: 24 }}><span onClick={() => { window.__scrollToId && window.__scrollToId("sr"); }} style={{ fontFamily: body, fontWeight: 300, fontSize: 15, color: C.ink2, cursor: "pointer", borderBottom: "1px solid " + C.line, paddingBottom: 3 }} className="hov">Или найдём под заказ — расскажите, что ищете</span></div>
+              <div style={{ marginTop: 24 }}><span onClick={() => { window.__scrollToId && window.__scrollToId("sr"); }} style={{ fontFamily: body, fontWeight: 300, fontSize: 15, color: C.ink2, cursor: "pointer", borderBottom: "1px solid " + C.line, paddingBottom: 3 }} className="hov">Или найдём под заказ – расскажите, что ищете</span></div>
             </div>
             <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", minHeight: 460 }}>
               <HeroMedia images={HERO_IMAGES} />
@@ -800,7 +800,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
         </div>
       </section>
 
-      {/* BRAND MARQUEE — заменить текст на реальные лого (img) когда будут файлы */}
+      {/* BRAND MARQUEE – заменить текст на реальные лого (img) когда будут файлы */}
       <section className="marquee" style={{ borderTop: "1px solid " + C.line, borderBottom: "1px solid " + C.line, overflow: "hidden", padding: "clamp(30px,4vw,52px) 0" }}>
         <div className="mq">
           {[0, 1].map((rep) => (<div key={rep} style={{ display: "flex", alignItems: "center", flexShrink: 0 }} aria-hidden={rep === 1}>
@@ -825,7 +825,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
       <section className="quote-sec" style={{ background: C.panel, position: "relative", left: "50%", transform: "translateX(-50%)", width: "100vw", maxWidth: "100vw", margin: "clamp(48px,6vw,90px) 0", minHeight: 380, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "32px 20px", textAlign: "center" }}>
           <svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", margin: "0 auto" }}><rect width="80" height="80" fill="black" /><path d="M24.1167 26C27.4667 26.1667 34.7251 26.9 36.9585 28.5C39.7502 31.5 37.5168 42 23 55C26.9084 47.5 31.3751 35.5 24.1167 26Z" fill="white" /><path d="M42.1167 26C45.4667 26.1667 52.7251 26.9 54.9585 28.5C57.7502 31.5 55.5168 42 41 55C44.9084 47.5 49.3751 35.5 42.1167 26Z" fill="white" /></svg>
-          <p style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(16px,3.6vw,34px)", lineHeight: 1.3, color: C.ink, margin: "clamp(28px,3.8vw,44px) 0 0" }}>«За каждой находкой — чья-то долгая мечта.<br />Мы относимся к ней так же».</p>
+          <p style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(16px,3.6vw,34px)", lineHeight: 1.3, color: C.ink, margin: "clamp(28px,3.8vw,44px) 0 0" }}>«За каждой находкой – чья-то долгая мечта.<br />Мы относимся к ней так же».</p>
           <div style={{ marginTop: "clamp(14px,2.4vw,22px)" }}><div style={{ fontWeight: 400, fontSize: 26, letterSpacing: 0.5 }}><span style={{ fontFamily: head, color: C.ink }}>Irena</span> <span style={{ fontFamily: mont, color: C.ink2, fontSize: 18 }}>| Находки</span></div></div>
         </div>
       </section>
@@ -841,7 +841,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
           <div style={{ maxWidth: 540 }}>
             <div style={{ ...label, color: "rgba(255,255,255,.7)" }}>Подлинность</div>
             <h2 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(30px,4.4vw,58px)", lineHeight: 1.04, margin: "16px 0 0", color: "#fff" }}>Entrupy и экспертиза ювелира</h2>
-            <p style={{ fontFamily: body, fontWeight: 300, fontSize: "clamp(15px,1.6vw,18px)", lineHeight: 1.7, color: "rgba(255,255,255,0.82)", margin: "18px 0 30px", maxWidth: 460 }}>Сумки — аппаратная проверка Entrupy с сертификатом. Украшения — экспертиза доверенного ювелира.</p>
+            <p style={{ fontFamily: body, fontWeight: 300, fontSize: "clamp(15px,1.6vw,18px)", lineHeight: 1.7, color: "rgba(255,255,255,0.82)", margin: "18px 0 30px", maxWidth: 460 }}>Сумки – аппаратная проверка Entrupy с сертификатом. Украшения – экспертиза доверенного ювелира.</p>
             <span style={{ display: "inline-flex", alignItems: "center", gap: 12, fontFamily: body, fontWeight: 300, fontSize: 15, letterSpacing: ".04em", color: "#fff", borderBottom: "1px solid rgba(255,255,255,0.4)", paddingBottom: 4 }}>Как это работает <ArrowRight size={15} /></span>
           </div>
         </div>
@@ -851,7 +851,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
       <section id="how" className="wrap" style={{ maxWidth: 1340, margin: "0 auto", padding: "clamp(10px,2vw,24px) 0 clamp(50px,7vw,90px)" }}>
         <div style={{ ...label, color: C.accent, textAlign: "center" }}>Как это устроено</div>
         <div className="g3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "clamp(24px,4vw,64px)", marginTop: "clamp(28px,4vw,46px)" }}>
-          {[["01", "Заявка", "Пишете Ирине или оставляете запрос ниже — обсуждаем вещь, комплект и стоимость."], ["02", "Выкуп и проверка", "Выкупаем и проверяем: Entrupy для сумок, ювелир — для украшений."], ["03", "Передача", "Привозим и передаём лично или застрахованной доставкой."]].map(([n, t, d]) => (
+          {[["01", "Заявка", "Пишете Ирине или оставляете запрос ниже – обсуждаем вещь, комплект и стоимость."], ["02", "Выкуп и проверка", "Выкупаем и проверяем: Entrupy для сумок, ювелир – для украшений."], ["03", "Передача", "Привозим и передаём лично или застрахованной доставкой."]].map(([n, t, d]) => (
             <div key={n}>
               <div style={{ fontFamily: head, fontWeight: 400, fontSize: 30, lineHeight: 1, color: C.accent }}>{n}</div>
               <div style={{ height: 2, background: C.line, margin: "14px 0" }} />
