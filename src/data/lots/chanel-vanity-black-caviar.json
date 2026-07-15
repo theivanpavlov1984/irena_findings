@@ -6,16 +6,10 @@
   "collection": "Vanity",
   "type": "Мини-сумки",
   "model": "Vanity Case",
-  "price": null,
-  "condition": "",
-  "conditionNote": "",
+  "conditionNote": "Отличное",
   "status": "available",
   "specs": {
-    "color": "Чёрный кавьяр",
-    "metal": "",
-    "size": "",
-    "serial": "",
-    "complect": ""
+    "color": "Чёрный кавьяр"
   },
   "auth": "entrupy",
   "photos": [
