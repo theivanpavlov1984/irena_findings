@@ -7,20 +7,17 @@
   "type": "Мини-сумки",
   "model": "Vanity Case",
   "price": 200000,
-  "condition": "",
-  "conditionNote": "",
+  "condition": "Отличное",
+  "conditionNote": "В отличном состоянии. Носилась бережно, есть лёгкие следы использования.",
   "status": "available",
   "specs": {
     "color": "Чёрный, цепь cc",
     "size": "10.5×9×7 см",
-    "complect": "коробка, два пыльника, чек, гарантийная карта, мануалы, фирменная лента и камелия",
-    "metal": "",
-    "serial": ""
+    "complect": "коробка, два пыльника, чек, гарантийная карта, мануалы, фирменная лента и камелия"
   },
   "auth": "entrupy",
   "photos": [
-    "/photos/Chanel_Vanity_Black_CC_Chain_01.jpg",
-    "/photos/Chanel_Vanity_Black_CC_Chain_02.jpg"
+    "/photos/Chanel_Vanity_Black_CC_Chain_01.jpg"
   ],
   "desc": "Размер 10.5×9×7 см, цепь 119 см (носится и через тело), gold hardware."
 }
