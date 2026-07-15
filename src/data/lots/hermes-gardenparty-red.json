@@ -6,16 +6,12 @@
   "collection": "Garden Party",
   "type": "Тоуты",
   "model": "Garden Party",
-  "price": 140000,
+  "price": 150000,
   "condition": "Отличное",
   "conditionNote": "Отличное",
   "status": "available",
   "specs": {
-    "color": "Красный",
-    "metal": "",
-    "size": "",
-    "serial": "",
-    "complect": ""
+    "color": "Красный"
   },
   "auth": "expert",
   "photos": [
