@@ -244,7 +244,12 @@ function Card({ lot, fav, onFav, onOpen, i, tag = true }) {
 function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, goBrand, onSearch }) {
   useEffect(() => { const sbw = window.innerWidth - document.documentElement.clientWidth; document.body.style.overflow = "hidden"; if (sbw > 0) { document.body.style.paddingRight = sbw + "px"; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = sbw + "px"; } return () => { document.body.style.overflow = ""; document.body.style.paddingRight = ""; const hd = document.querySelector(".site-head"); if (hd) hd.style.paddingRight = ""; }; }, []);
   const showRetail = lot.retail && (lot.retail - lot.price) / lot.retail >= 0.4;
-  const tg = TELEGRAM + "?text=" + encodeURIComponent("Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model + " (лот " + lot.id + ").");
+  const [lotUrl, setLotUrl] = useState("");
+  useEffect(() => { setLotUrl(window.location.origin + "/lot/" + lot.id); }, [lot.id]);
+  const tg = TELEGRAM + "?text=" + encodeURIComponent(
+    "Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model + " — " + fmt(lot.price) + "." +
+    (lotUrl ? "\n" + lotUrl : "")
+  );
   const catLabel = lot.cat === "bags" ? "Сумки" : "Украшения";
   const [tab, setTab] = useState("desc");
   const [ph, setPh] = useState(0);
@@ -337,7 +342,7 @@ function SearchRequest() {
       <div style={{ margin: "clamp(26px,3.6vw,40px) auto 0", maxWidth: 560 }}>
         <input value={f.link} onChange={(e) => setF({ ...f, link: e.target.value })} placeholder="Видели её где-то? Оставьте ссылку или пару слов — не обязательно" className="field" style={{ width: "100%", background: "none", border: "none", borderBottom: "1px solid " + C.line, padding: "12px 2px", fontSize: 14.5, color: C.ink, fontFamily: body, fontWeight: 300, outline: "none", textAlign: "center" }} />
       </div>
-      <p style={{ fontFamily: body, fontWeight: 300, fontSize: 15, lineHeight: 1.7, color: C.ink2, margin: "clamp(24px,3.4vw,36px) auto 0", maxWidth: 460 }}>Ирина отберёт варианты из Японии и Гонконга, проверит подлинность и пришлёт фото до покупки.</p>
+      <p style={{ fontFamily: body, fontWeight: 300, fontSize: 15, lineHeight: 1.7, color: C.ink2, margin: "clamp(24px,3.4vw,36px) auto 0", maxWidth: 460 }}>Ирина подберёт варианты под запрос, проверит подлинность и пришлёт фото до покупки.</p>
       <a href={TELEGRAM + "?text=" + text} target="_blank" rel="noreferrer" style={{ ...btnInk, marginTop: "clamp(26px,3.6vw,40px)" }} className="btn-primary">Отправить запрос Ирине <ArrowRight size={15} /></a>
     </div>
   </section>);
@@ -539,7 +544,7 @@ function SearchOverlay({ onClose, favs, onFav, onOpen, recent = [], onRemember, 
       ) : (
         <div style={{ marginTop: "clamp(40px,7vw,80px)", textAlign: "center", maxWidth: 560, marginInline: "auto" }}>
           <h3 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(24px,3.2vw,40px)", lineHeight: 1.15, margin: 0, color: C.ink }}>Сейчас такого нет в подборке</h3>
-          <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, marginTop: 16 }}>Но это не значит, что мы не найдём. Оставьте запрос — Ирина отберёт варианты из Японии и Гонконга под вас.</p>
+          <p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, marginTop: 16 }}>Но это не значит, что мы не найдём. Оставьте запрос — Ирина подберёт варианты под вас и проверит подлинность.</p>
           <button onClick={() => { onClose(); window.__goSearchForm && window.__goSearchForm(); }} style={{ ...btnInk, marginTop: 26 }} className="btn-primary">Найдём и привезём <ArrowRight size={15} /></button>
         </div>
       )}
@@ -578,7 +583,7 @@ function Footer({ go }) {
       <div style={{ maxWidth: 1340, margin: "0 auto", padding: "clamp(50px,7vw,90px) 0", display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr 1.3fr", gap: 40 }} className="wrap foot">
         <div>
           <div style={{ fontWeight: 400, fontSize: 26, letterSpacing: 0.5 }}><span style={{ fontFamily: head, color: C.ink }}>Irena</span> <span style={{ fontFamily: mont, color: C.ink2, fontSize: 18 }}>| Находки</span></div>
-          <p style={{ fontFamily: body, fontWeight: 300, fontSize: 14, lineHeight: 1.7, color: C.ink2, maxWidth: 290, marginTop: 16 }}>Персональный байер премиальных сумок и украшений. Япония и Гонконг, под заказ, с проверкой подлинности.</p>
+          <p style={{ fontFamily: body, fontWeight: 300, fontSize: 14, lineHeight: 1.7, color: C.ink2, maxWidth: 290, marginTop: 16 }}>Персональный байер премиальных сумок и украшений. Под заказ, с проверкой подлинности.</p>
           <div style={{ display: "flex", gap: 12, marginTop: 22 }}>
             <a href={INSTAGRAM} target="_blank" rel="noreferrer" aria-label="Instagram" className="soc" style={{ width: 40, height: 40, display: "grid", placeItems: "center" }}><Instagram size={18} strokeWidth={1.4} /></a>
             <a href={TELEGRAM_CHANNEL} target="_blank" rel="noreferrer" aria-label="Telegram" className="soc" style={{ width: 40, height: 40, display: "grid", placeItems: "center" }}><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: 1 }}><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z" /></svg></a>
@@ -782,7 +787,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
         <div className="wrap" style={{ maxWidth: 1340, margin: "0 auto", padding: "clamp(150px,18vw,208px) 0 clamp(48px,5vw,72px)", width: "100%" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }} className="hero-grid">
             <div style={{ opacity: loaded ? 1 : 0, animation: loaded ? "rise 1s cubic-bezier(.16,.8,.3,1) both" : "none" }}>
-              <div style={{ ...label, color: C.accent, marginBottom: 22 }}>Япония · Гонконг · под заказ</div>
+              <div style={{ ...label, color: C.accent, marginBottom: 22 }}>Под заказ · с проверкой подлинности</div>
               <h1 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(46px,7vw,104px)", lineHeight: 1.0, margin: 0, color: C.ink }}>Находки,<br />отобранные<br />лично</h1>
               <p style={{ fontFamily: body, fontWeight: 300, fontSize: 17, lineHeight: 1.7, color: C.ink2, margin: "28px 0 40px", maxWidth: 380 }}>Подлинные сумки и украшения с азиатского ресейла — отбор Ирины, проверка Entrupy и ювелира.</p>
               <CircleArrow label="Смотреть подборку" onClick={() => go("catalog", "bags")} />
@@ -846,7 +851,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
       <section id="how" className="wrap" style={{ maxWidth: 1340, margin: "0 auto", padding: "clamp(10px,2vw,24px) 0 clamp(50px,7vw,90px)" }}>
         <div style={{ ...label, color: C.accent, textAlign: "center" }}>Как это устроено</div>
         <div className="g3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "clamp(24px,4vw,64px)", marginTop: "clamp(28px,4vw,46px)" }}>
-          {[["01", "Заявка", "Пишете Ирине или оставляете запрос ниже — обсуждаем вещь, комплект и стоимость."], ["02", "Выкуп и проверка", "Выкупаем в Японии или Гонконге и проверяем: Entrupy для сумок, ювелир — для украшений."], ["03", "Передача", "Привозим и передаём лично или застрахованной доставкой."]].map(([n, t, d]) => (
+          {[["01", "Заявка", "Пишете Ирине или оставляете запрос ниже — обсуждаем вещь, комплект и стоимость."], ["02", "Выкуп и проверка", "Выкупаем и проверяем: Entrupy для сумок, ювелир — для украшений."], ["03", "Передача", "Привозим и передаём лично или застрахованной доставкой."]].map(([n, t, d]) => (
             <div key={n}>
               <div style={{ fontFamily: head, fontWeight: 400, fontSize: 30, lineHeight: 1, color: C.accent }}>{n}</div>
               <div style={{ height: 2, background: C.line, margin: "14px 0" }} />
@@ -863,7 +868,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
     {view === "catalog" && (
       <section className="wrap" style={{ maxWidth: 1340, margin: "0 auto", padding: "clamp(160px,19vw,215px) 0 clamp(70px,10vw,130px)" }}>
         <div style={{ background: C.card, display: "grid", gridTemplateColumns: "1fr 1fr", alignItems: "center", overflow: "hidden", marginBottom: "clamp(32px,5vw,56px)" }} className="two">
-          <div style={{ padding: "clamp(28px,4vw,56px)" }}><h1 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(32px,4.6vw,58px)", margin: 0, color: C.ink }}>{cat === "bags" ? "Сумки" : "Украшения"}</h1><p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, margin: "14px 0 0", maxWidth: 360 }}>{cat === "bags" ? "Курируемая подборка сумок из Японии и Гонконга. Под заказ, с проверкой Entrupy." : "Украшения с экспертизой доверенного ювелира и полировкой перед отправкой."}</p></div>
+          <div style={{ padding: "clamp(28px,4vw,56px)" }}><h1 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(32px,4.6vw,58px)", margin: 0, color: C.ink }}>{cat === "bags" ? "Сумки" : "Украшения"}</h1><p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, margin: "14px 0 0", maxWidth: 360 }}>{cat === "bags" ? "Курируемая подборка сумок под заказ, с проверкой подлинности Entrupy." : "Украшения с экспертизой доверенного ювелира и полировкой перед отправкой."}</p></div>
           <div style={{ height: "clamp(220px, 22vw, 330px)", overflow: "hidden", background: "#fff" }}>{cat === "bags" ? <LotImage lot={LOTS[0]} big /> : <img loading="lazy" decoding="async" src={JBANNER} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }} />}</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
