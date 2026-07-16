@@ -13,14 +13,12 @@
   "specs": {
     "color": "Кольцо, белое золото",
     "metal": "Белое золото 18k",
-    "complect": "Фирменная бирюзовая коробка Tiffany & Co",
-    "size": "",
-    "serial": ""
+    "complect": "Фирменная бирюзовая коробка Tiffany & Co"
   },
   "auth": "jeweler",
   "photos": [
-    "/photos/Tiffany_T_Wire_Ring_01.jpg",
     "/photos/Tiffany_T_Wire_Ring_02.jpg",
+    "/photos/Tiffany_T_Wire_Ring_01.jpg",
     "/photos/Tiffany_T_Wire_Ring_03.jpg",
     "/photos/Tiffany_T_Wire_Ring_04.jpg"
   ],
