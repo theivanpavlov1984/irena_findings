@@ -644,7 +644,13 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
       if (mLot) { const l = LOTS.find((x) => x.id === mLot[1]); setOpen(l || null); if (l) setCat(l.cat); return; }
       setOpen(null);
       const mCat = p.match(/^\/catalog\/(bags|jewelry)$/);
-      if (mCat) { setCat(mCat[1]); setView("catalog"); return; }
+      if (mCat) {
+        const q = new URLSearchParams(window.location.search);
+        setCat(mCat[1]);
+        setFilters({ brands: q.get("brand") ? [q.get("brand")] : [], collections: q.get("collection") ? [q.get("collection")] : [], types: [], conditions: [], metals: [], price: [] });
+        setView("catalog");
+        return;
+      }
       if (p === "/authenticity") { setView("authenticity"); return; }
       if (p === "/account") { setView("account"); return; }
       setView("home");
@@ -662,11 +668,10 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
 
   useEffect(() => { const t = setTimeout(() => setLoaded(true), 70); return () => clearTimeout(t); }, []);
   useEffect(() => { const hd = document.querySelector(".site-head"); if (hd) { hd.style.transition = "none"; requestAnimationFrame(() => requestAnimationFrame(() => { hd.style.transition = ""; })); } window.scrollTo(0, 0); }, [view]);
-  useEffect(() => { setFilters({ brands: [], collections: [], types: [], conditions: [], metals: [], price: [] }); }, [cat]);
   useEffect(() => { setPage(1); }, [cat, sort, filters]);
 
   const onFav = useCallback((id) => setFavs((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; }), []);
-  const go = (v, c) => { if (c) setCat(c); setView(v); setFiltersOpen(false); };
+  const go = (v, c) => { if (c) { setCat(c); setFilters({ brands: [], collections: [], types: [], conditions: [], metals: [], price: [] }); } setView(v); setFiltersOpen(false); };
   const goCollection = (c, collection, brand) => {
     setCat(c);
     setFilters((f) => ({ ...f, collections: [collection], brands: brand ? [brand] : [] }));
@@ -873,7 +878,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
           <div style={{ height: "clamp(220px, 22vw, 330px)", overflow: "hidden", background: "#fff" }}>{cat === "bags" ? <LotImage lot={LOTS[0]} big /> : <img loading="lazy" decoding="async" src={JBANNER} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }} />}</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
-          <div style={{ display: "flex", gap: 28 }}>{[["bags", "Сумки"], ["jewelry", "Украшения"]].map(([k, l]) => <button key={k} onClick={() => setCat(k)} style={{ fontFamily: head, fontSize: "clamp(20px,2.2vw,27px)", background: "none", border: "none", borderBottom: "2px solid " + (cat === k ? C.accent : "transparent"), padding: "0 0 6px", cursor: "pointer", color: cat === k ? C.ink : C.ink2, transition: "color .25s" }}>{l}<span style={{ fontSize: "0.6em", color: C.ink2, marginLeft: 7 }}>({LOTS.filter((x) => x.cat === k).length})</span></button>)}</div>
+          <div style={{ display: "flex", gap: 28 }}>{[["bags", "Сумки"], ["jewelry", "Украшения"]].map(([k, l]) => <button key={k} onClick={() => { setCat(k); setFilters({ brands: [], collections: [], types: [], conditions: [], metals: [], price: [] }); }} style={{ fontFamily: head, fontSize: "clamp(20px,2.2vw,27px)", background: "none", border: "none", borderBottom: "2px solid " + (cat === k ? C.accent : "transparent"), padding: "0 0 6px", cursor: "pointer", color: cat === k ? C.ink : C.ink2, transition: "color .25s" }}>{l}<span style={{ fontSize: "0.6em", color: C.ink2, marginLeft: 7 }}>({LOTS.filter((x) => x.cat === k).length})</span></button>)}</div>
           <div className="toolbar-right" style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}><button onClick={() => setFiltersOpen(true)} className="btn-secondary filters-btn" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 9, background: "none", border: "1px solid " + C.stroke, cursor: "pointer", padding: "12px 18px", fontFamily: head, fontSize: 14.5, color: C.ink }}><SlidersHorizontal size={15} strokeWidth={1.5} /> Фильтры и сортировка{activeCount > 0 ? <span style={{ background: C.accent, color: "#fff", fontFamily: mont, fontSize: 10.5, width: 18, height: 18, borderRadius: 10, display: "inline-grid", placeItems: "center" }}>{activeCount}</span> : null}</button><div className="sort-inline" style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ fontFamily: body, fontSize: 15, color: C.ink2 }}>Сортировка:</span><Dropdown value={sort} onChange={setSort} options={[{ v: "new", l: "По умолчанию" }, { v: "asc", l: "Цена: по возрастанию" }, { v: "desc", l: "Цена: по убыванию" }]} /></div></div>
         </div>
         {filtersOpen && (<div style={{ position: "fixed", inset: 0, zIndex: 150, background: C.bg, overflowY: "auto", animation: "fadeIn .3s ease" }}>
