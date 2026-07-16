@@ -247,7 +247,8 @@ function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, goBra
   const [lotUrl, setLotUrl] = useState("");
   useEffect(() => { setLotUrl(window.location.origin + "/lot/" + lot.id); }, [lot.id]);
   const tg = TELEGRAM + "?text=" + encodeURIComponent(
-    "Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model + " – " + fmt(lot.price) + "." +
+    "Здравствуйте, Ирина! Интересует " + lot.brand + " " + lot.model +
+    (lot.price != null ? " – " + fmt(lot.price) : "") + "." +
     (lotUrl ? "\n" + lotUrl : "")
   );
   const catLabel = lot.cat === "bags" ? "Сумки" : "Украшения";
@@ -308,7 +309,7 @@ function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, goBra
               <div style={{ display: "flex", justifyContent: "space-between", padding: "13px 0", fontFamily: body, fontSize: 14 }}><span style={{ color: C.ink2 }}>Состояние</span><span style={{ textAlign: "right" }}>{lot.conditionNote || lot.condition || "уточняется"}</span></div>
             </div>)}
             {tab === "auth" && (<div style={{ marginTop: 22 }}>
-              <p style={{ fontFamily: body, fontWeight: 300, fontSize: 15, lineHeight: 1.7, color: C.ink2, margin: "0 0 18px", maxWidth: 460 }}>{lot.auth === "entrupy" ? "Перед передачей сумка проходит аппаратную проверку Entrupy – с цифровым сертификатом, который можно проверить самостоятельно." : lot.auth === "expert" ? "Hermès проверяет профильный специалист вручную: кожа, строчка, клейма, фурнитура. Entrupy для Hermès не применяется – только живая экспертиза." : "Перед передачей украшение проверяет доверенный ювелир в Москве: металл, пробы, камни и клейма."} Гарантия подлинности действует всегда.</p>
+              <p style={{ fontFamily: mont, fontWeight: 300, fontSize: 15, lineHeight: 1.7, color: C.ink2, margin: "0 0 18px", maxWidth: 460 }}>{lot.auth === "entrupy" ? "Перед передачей сумка проходит аппаратную проверку Entrupy – с цифровым сертификатом, который можно проверить самостоятельно." : lot.auth === "expert" ? "Hermès проверяет профильный специалист вручную: кожа, строчка, клейма, фурнитура. Entrupy для Hermès не применяется – только живая экспертиза." : "Перед передачей украшение проверяет доверенный ювелир в Москве: металл, пробы, камни и клейма."} Гарантия подлинности действует всегда.</p>
               <button onClick={onAuth} style={{ width: "100%", display: "flex", gap: 16, alignItems: "center", textAlign: "left", background: C.card, border: "none", cursor: "pointer", padding: 14 }}>
                 <div style={{ width: 80, flexShrink: 0 }}><Photo src={lot.auth === "entrupy" ? IMG.device : IMG.inspector} ratio="1/1" /></div>
                 <div><div style={label}>Подлинность</div><div style={{ fontFamily: head, fontWeight: 500, fontSize: 17, color: C.ink, marginTop: 4, lineHeight: 1.15 }}>{lot.auth === "entrupy" ? "Проверка Entrupy" : lot.auth === "expert" ? "Экспертиза специалиста" : "Экспертиза ювелира"}</div><div style={{ ...label, marginTop: 8, color: C.accent }}>Как мы проверяем →</div></div>
