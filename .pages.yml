@@ -30,9 +30,16 @@ content:
       - name: order
         label: Порядок в каталоге
         type: number
-        default: 100
+        default: 0
         options: { step: 1 }
-        description: 'Чем меньше число, тем выше лот в списке.'
+        description: 'Меньше число — выше в каталоге. Оставь 0 у нового лота — он встанет наверху. Хочешь опустить — поставь 100, 200 и т.д.'
+
+      - name: addedAt
+        label: Дата добавления
+        type: date
+        options:
+          format: yyyy-MM-dd
+        description: 'Для сортировки новинок. Когда добавляешь лот — поставь сегодняшнюю дату, свежие встанут выше.'
 
       - name: cat
         label: Категория
