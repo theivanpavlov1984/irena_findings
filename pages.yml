@@ -1,0 +1,131 @@
+media:
+  input: public/photos
+  output: /photos
+
+settings:
+  content:
+    merge: true
+
+content:
+  - name: lots
+    label: Лоты
+    type: collection
+    path: src/data/lots
+    format: json
+    filename: '{fields.id}.json'
+    view:
+      fields: [brand, model, price, condition, status]
+      primary: model
+      sort: [order, brand, price]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: id
+        label: ID (латиницей, без пробелов)
+        type: string
+        required: true
+        description: 'Пример: chanel-vanity-black. У существующего лота не меняй — это имя файла и ссылка.'
+
+      - name: order
+        label: Порядок в каталоге
+        type: number
+        default: 0
+        options: { step: 1 }
+        description: 'Меньше число — выше в каталоге. Оставь 0 у нового лота — он встанет наверху. Хочешь опустить — поставь 100, 200 и т.д.'
+
+      - name: addedAt
+        label: Дата добавления
+        type: date
+        options:
+          format: yyyy-MM-dd
+        description: 'Для сортировки новинок. Когда добавляешь лот — поставь сегодняшнюю дату, свежие встанут выше.'
+
+      - name: cat
+        label: Категория
+        type: select
+        required: true
+        options:
+          values:
+            - { name: bags, label: Сумки }
+            - { name: jewelry, label: Украшения }
+
+      - name: brand
+        label: Бренд
+        type: string
+        required: true
+
+      - name: collection
+        label: Коллекция
+        type: string
+
+      - name: type
+        label: Тип
+        type: select
+        required: true
+        options:
+          values: [Сумки, Тоуты, Рюкзаки, Мини-сумки, Клатчи и пошетты, Дорожные сумки, Колье, Браслеты, Серьги, Кольца]
+
+      - name: model
+        label: Модель
+        type: string
+        required: true
+
+      - name: price
+        label: Цена, ₽
+        type: number
+        options: { step: 1000, min: 0 }
+        description: 'Пусто — на сайте будет «Цена по запросу». Так делаем для подборок.'
+
+      - name: condition
+        label: Состояние — для фильтра
+        type: select
+        options:
+          values: [Новое, Отличное, Хорошее, Винтаж]
+        description: 'Работает в фильтре каталога. Если пусто — лот под фильтр состояния не попадёт.'
+
+      - name: conditionNote
+        label: Состояние — текст на карточке
+        type: text
+        description: 'Честно, как в канале. Пример: «Носилась бережно, есть лёгкие следы использования».'
+
+      - name: status
+        label: Статус
+        type: select
+        default: available
+        options:
+          values:
+            - { name: available, label: В наличии }
+            - { name: reserved, label: Бронь }
+            - { name: in_transit, label: В пути }
+
+      - name: specs
+        label: Характеристики
+        type: object
+        fields:
+          - { name: color, label: Цвет, type: string }
+          - { name: metal, label: Металл, type: string, description: 'Только для украшений. Пример: Белое золото 18k. Это же поле работает в фильтре «Металл».' }
+          - { name: size, label: Размер, type: string }
+          - { name: serial, label: Серийный номер, type: string }
+          - { name: complect, label: Комплект, type: string }
+
+      - name: auth
+        label: Проверка подлинности
+        type: select
+        required: true
+        options:
+          values:
+            - { name: entrupy, label: Entrupy — сумки }
+            - { name: jeweler, label: Ювелир в Москве — украшения }
+            - { name: expert, label: Ручная экспертиза специалиста — Hermès }
+
+      - name: photos
+        label: Фото
+        type: image
+        list: true
+        description: 'Первое фото — главное, оно показывается в каталоге.'
+
+      - name: desc
+        label: Описание
+        type: text
+        description: 'Абзацы разделяй пустой строкой. Не упоминай площадку закупки и азиатские рынки.'
