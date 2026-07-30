@@ -1,5 +1,5 @@
 {
-  "id": "cartier-love-necklace",
+  "id": "cartier_love_necklace",
   "order": 0,
   "addedAt": "2026-07-30",
   "cat": "jewelry",
@@ -13,7 +13,7 @@
   "status": "available",
   "specs": {
     "color": "Белый",
-    "metal": "Белое золото 18к",
+    "metal": "Белое золото 18k",
     "size": "Цепочка 44 см, кольца около 1 см. Вес 7,24 г.",
     "complect": "Только колье"
   },

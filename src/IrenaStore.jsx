@@ -690,7 +690,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
   const toggle = (key, val) => setFilters((f) => ({ ...f, [key]: f[key].includes(val) ? f[key].filter((x) => x !== val) : [...f[key], val] }));
 
   const brandOpts = cat === "bags" ? BAG_BRANDS : JEWELRY_BRANDS;
-  const collectionOpts = cat === "bags" ? BAG_COLLECTIONS : JEWELRY_COLLECTIONS;
+  const collectionOpts = useMemo(() => [...new Set(LOTS.filter((l) => l.cat === cat && l.collection).map((l) => String(l.collection).trim()))].sort((a, b) => a.localeCompare(b, "ru")), [cat]);
   const typeOpts = useMemo(() => {
     const order = ["Мини-сумки", "Клатчи и пошетты", "Сумки через плечо", "Тоуты", "Рюкзаки", "Дорожные сумки", "Колье", "Браслеты", "Серьги", "Кольца"];
     const found = [...new Set(LOTS.filter((l) => l.cat === cat && l.type).map((l) => l.type))];
