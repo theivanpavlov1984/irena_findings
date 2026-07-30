@@ -692,7 +692,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
   const brandOpts = cat === "bags" ? BAG_BRANDS : JEWELRY_BRANDS;
   const collectionOpts = cat === "bags" ? BAG_COLLECTIONS : JEWELRY_COLLECTIONS;
   const typeOpts = useMemo(() => {
-    const order = ["Мини-сумки", "Клатчи и пошетты", "Сумки", "Тоуты", "Рюкзаки", "Дорожные сумки", "Колье", "Браслеты", "Серьги", "Кольца"];
+    const order = ["Мини-сумки", "Клатчи и пошетты", "Сумки через плечо", "Тоуты", "Рюкзаки", "Дорожные сумки", "Колье", "Браслеты", "Серьги", "Кольца"];
     const found = [...new Set(LOTS.filter((l) => l.cat === cat && l.type).map((l) => l.type))];
     return found.sort((a, b) => {
       const ia = order.indexOf(a), ib = order.indexOf(b);
