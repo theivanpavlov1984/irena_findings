@@ -757,7 +757,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
       .card:hover .fav{opacity:1;transform:none;}
       .fav:hover{background:#fff !important;}
       .hov:hover{opacity:.86;}
-      .crumb{color:${C.ink2};font-family:${body};font-size:13px;background:none;border:none;padding:0;cursor:pointer;transition:color .2s;}
+      .crumb{color:${C.ink2};font-family:${mont};font-size:13px;background:none;border:none;padding:0;cursor:pointer;transition:color .2s;}
       .crumb:hover{color:${C.ink};}
       .btn-primary:hover{background:${C.hot} !important;color:#fff !important;}
       .btn-secondary:hover{background:${C.ink} !important;color:${C.bg} !important;}
