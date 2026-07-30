@@ -270,14 +270,14 @@ function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, goBra
     <div className="wrap" style={{ maxWidth: 1340, margin: "0 auto", padding: "24px 0 90px" }}>
       <nav aria-label="Хлебные крошки" style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 9, padding: "6px 0 30px" }}>
         <button onClick={() => { onClose(); go("home"); }} className="crumb">Главная</button>
-        <span style={{ fontFamily: body, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
+        <span style={{ fontFamily: mont, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
         <button onClick={() => { onClose(); go("catalog", lot.cat); }} className="crumb">Каталог</button>
-        <span style={{ fontFamily: body, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
+        <span style={{ fontFamily: mont, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
         <button onClick={() => { onClose(); go("catalog", lot.cat); }} className="crumb">{catLabel}</button>
-        <span style={{ fontFamily: body, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
+        <span style={{ fontFamily: mont, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
         <button onClick={() => { if (goBrand) goBrand(lot.cat, lot.brand); }} className="crumb">{lot.brand}</button>
-        <span style={{ fontFamily: body, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
-        <span style={{ fontFamily: body, fontSize: 13, color: C.ink }}>{lot.model}</span>
+        <span style={{ fontFamily: mont, fontSize: 13, color: C.ink2, opacity: .5 }}>/</span>
+        <span style={{ fontFamily: mont, fontSize: 13, color: C.ink }}>{lot.model}</span>
       </nav>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(28px,5vw,72px)", alignItems: "start" }} className="pv">
         <div className="pv-media" style={{ position: "sticky", top: 24 }}>
@@ -305,8 +305,8 @@ function ProductView({ lot, fav, favs, onFav, onOpen, onClose, onAuth, go, goBra
             </div>
             {tab === "desc" && (<div style={{ marginTop: 22 }}>{String(lot.desc).split("\n\n").map((para, pi) => (<p key={pi} style={{ fontFamily: mont, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink, marginTop: pi ? 16 : 0 }}>{para}</p>))}</div>)}
             {tab === "specs" && (<div style={{ marginTop: 8 }}>
-              {Object.entries(lot.specs || {}).filter(([, v]) => v).map(([k, v]) => (<div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 20, padding: "13px 0", borderBottom: "1px solid " + C.line, fontFamily: body, fontSize: 14 }}><span style={{ color: C.ink2 }}>{SPEC_LABELS[k] || k}</span><span style={{ color: C.ink, textAlign: "right" }}>{v}</span></div>))}
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "13px 0", fontFamily: body, fontSize: 14 }}><span style={{ color: C.ink2 }}>Состояние</span><span style={{ textAlign: "right" }}>{lot.conditionNote || lot.condition || "уточняется"}</span></div>
+              {Object.entries(lot.specs || {}).filter(([, v]) => v).map(([k, v]) => (<div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 20, padding: "13px 0", borderBottom: "1px solid " + C.line, fontFamily: mont, fontSize: 14 }}><span style={{ color: C.ink2 }}>{SPEC_LABELS[k] || k}</span><span style={{ color: C.ink, textAlign: "right" }}>{v}</span></div>))}
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "13px 0", fontFamily: mont, fontSize: 14 }}><span style={{ color: C.ink2 }}>Состояние</span><span style={{ textAlign: "right" }}>{lot.conditionNote || lot.condition || "уточняется"}</span></div>
             </div>)}
             {tab === "auth" && (<div style={{ marginTop: 22 }}>
               <p style={{ fontFamily: mont, fontWeight: 300, fontSize: 15, lineHeight: 1.7, color: C.ink2, margin: "0 0 18px", maxWidth: 460 }}>{lot.auth === "entrupy" ? "Перед передачей сумка проходит аппаратную проверку Entrupy – с цифровым сертификатом, который можно проверить самостоятельно." : lot.auth === "expert" ? "Hermès проверяет профильный специалист вручную: кожа, строчка, клейма, фурнитура. Entrupy для Hermès не применяется – только живая экспертиза." : "Перед передачей украшение проверяет доверенный ювелир в Москве: металл, пробы, камни и клейма."} Гарантия подлинности действует всегда.</p>
@@ -691,9 +691,19 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
 
   const brandOpts = cat === "bags" ? BAG_BRANDS : JEWELRY_BRANDS;
   const collectionOpts = cat === "bags" ? BAG_COLLECTIONS : JEWELRY_COLLECTIONS;
-  const typeOpts = cat === "bags" ? BAG_TYPES : [];
+  const typeOpts = useMemo(() => {
+    const order = ["Мини-сумки", "Клатчи и пошетты", "Сумки", "Тоуты", "Рюкзаки", "Дорожные сумки", "Колье", "Браслеты", "Серьги", "Кольца"];
+    const found = [...new Set(LOTS.filter((l) => l.cat === cat && l.type).map((l) => l.type))];
+    return found.sort((a, b) => {
+      const ia = order.indexOf(a), ib = order.indexOf(b);
+      if (ia !== -1 && ib !== -1) return ia - ib;
+      if (ia !== -1) return -1;
+      if (ib !== -1) return 1;
+      return a.localeCompare(b, "ru");
+    });
+  }, [cat]);
   const condOpts = CONDITIONS;
-  const metalOpts = useMemo(() => [...new Set(LOTS.filter((l) => l.cat === cat && l.metal).map((l) => l.metal))], [cat]);
+  const metalOpts = useMemo(() => (cat === "jewelry" ? [...new Set(LOTS.filter((l) => l.cat === cat && l.metal).map((l) => l.metal))].sort() : []), [cat]);
   const PRICE = [["< 200к", 0, 200000], ["200–400к", 200000, 400000], ["400к +", 400000, 1e12]];
 
   const list = useMemo(() => {
