@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import NextImage from "next/image";
-import { ArrowRight, X, ChevronDown, ChevronLeft, ChevronRight, Instagram, Send, SlidersHorizontal, Share2 } from "lucide-react";
+import { ArrowRight, X, ChevronDown, ChevronLeft, ChevronRight, Instagram, SlidersHorizontal, Share2 } from "lucide-react";
 
 /* IRENA · Находки – прототип v5 */
 
@@ -38,6 +38,7 @@ function HeroMedia({ images }) {
     </div>
   );
 }
+const PRICE = [["< 200к", 0, 200000], ["200–400к", 200000, 400000], ["400к +", 400000, 1e12]];
 const C = { bg: "#F5F4F2", panel: "#E5E0D8", card: "#FFFFFF", ink: "#2A2422", ink2: "#8A7B74", line: "rgba(42,36,34,0.13)", accent: "#652527", hot: "#E96442", gold: "#BFA055", btn: "#652527", stroke: "#D9D1C6" };
 const head = "'Cyrene', 'Oranienbaum', serif";
 const body = "'Cyrene', 'Montserrat', sans-serif";
@@ -45,9 +46,6 @@ const mont = "'Montserrat', sans-serif";
 const JBANNER = "/img/jbanner.svg";
 const BAG_BRANDS = ["Chanel", "Hermès", "Louis Vuitton", "Versace", "Versace × Fendi", "Dior", "Gucci", "Prada", "Bottega Veneta", "Saint Laurent", "Celine", "Goyard", "Fendi", "Loewe", "Balenciaga", "Givenchy", "Valentino", "Miu Miu", "Chloé", "Delvaux"];
 const JEWELRY_BRANDS = ["Cartier", "Louis Vuitton", "Van Cleef & Arpels", "Bvlgari", "Tiffany & Co.", "Graff", "Chopard", "Chaumet", "Boucheron", "Messika", "Pomellato", "Piaget", "Harry Winston", "Mikimoto", "Damiani"];
-const BAG_COLLECTIONS = ["Classic Flap", "2.55", "Boy", "Vanity", "Wallet on Chain", "19", "Gabrielle", "Coco Handle", "Keepall", "Speedy", "Neverfull", "Alma", "Capucines", "OnTheGo", "Pochette", "Lady Dior", "Saddle", "Book Tote", "Birkin", "Kelly", "Constance", "Dionysus", "GG Marmont", "Jackie", "Jodie", "Cassette", "Puzzle"];
-const JEWELRY_COLLECTIONS = ["Alhambra", "Love", "Juste un Clou", "Panthère", "Trinity", "Clash", "Serpenti", "B.zero1", "Divas' Dream", "Tiffany T", "Tiffany Lock", "Happy Diamonds", "Possession", "Plume"];
-const BAG_TYPES = ["Мини-сумки", "Кросс-боди", "Сумки через плечо", "Тоут", "Рюкзаки", "Дорожные"];
 const CONDITIONS = ["Новое", "Отличное", "Хорошее", "Винтаж"];
 function FilterGroup({ title, children, defaultOpen = true, limit = 0 }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -78,8 +76,16 @@ const STATUS = { available: "В наличии", reserved: "Бронь", in_tran
 const MARQUEE = ["Chanel", "Louis Vuitton", "Van Cleef & Arpels", "Cartier", "Tiffany & Co.", "Bvlgari", "Dior", "Bottega Veneta", "Hermès"];
 
 /* ---------- primitives ---------- */
+function FactItem({ n, d, i }) {
+  const [r, shown] = useReveal();
+  return (
+    <div key={n} ref={r} style={{ textAlign: "center", opacity: shown ? 1 : 0, transform: shown ? "none" : "translateY(18px)", transition: "all .7s ease " + i * 0.1 + "s" }}>
+      <div style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(36px,4.6vw,64px)", color: C.accent }}>{n}</div>
+      <div style={{ fontFamily: body, fontWeight: 300, fontSize: 14.5, lineHeight: 1.55, color: C.ink2, marginTop: 12, maxWidth: 240, marginInline: "auto" }}>{d}</div>
+    </div>
+  );
+}
 function useReveal(t = 0.13) { const ref = useRef(null); const [s, setS] = useState(false); useEffect(() => { const el = ref.current; if (!el) return; const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setS(true); io.disconnect(); } }, { threshold: t }); io.observe(el); return () => io.disconnect(); }, [t]); return [ref, s]; }
-function useScrollY() { const [y, setY] = useState(0); useEffect(() => { const on = () => setY(window.scrollY); window.addEventListener("scroll", on, { passive: true }); return () => window.removeEventListener("scroll", on); }, []); return y; }
 function useHideOnScroll() { const [hidden, setHidden] = useState(false); const last = useRef(0); useEffect(() => { const on = () => { const y = window.scrollY; if (y < 120) setHidden(false); else if (y > last.current + 4) setHidden(true); else if (y < last.current - 4) setHidden(false); last.current = y; }; window.addEventListener("scroll", on, { passive: true }); return () => window.removeEventListener("scroll", on); }, []); return hidden; }
 
 function HeartIcon({ size = 20, filled }) {
@@ -93,7 +99,6 @@ function SearchIcon({ size = 20 }) {
     <path fillRule="evenodd" clipRule="evenodd" d="M11.6115 2C6.30323 2 2 6.20819 2 11.3993C2 16.5903 6.30323 20.7985 11.6115 20.7985C13.8819 20.7985 15.9684 20.0287 17.613 18.7415L20.7371 21.7886L20.8202 21.8586C21.1102 22.0685 21.5214 22.0446 21.7839 21.7873C22.0726 21.5043 22.072 21.0459 21.7825 20.7636L18.6952 17.7523C20.2649 16.0794 21.2231 13.8487 21.2231 11.3993C21.2231 6.20819 16.9198 2 11.6115 2ZM11.6115 3.44774C16.1022 3.44774 19.7426 7.00776 19.7426 11.3993C19.7426 15.7908 16.1022 19.3508 11.6115 19.3508C7.12086 19.3508 3.48044 15.7908 3.48044 11.3993C3.48044 7.00776 7.12086 3.44774 11.6115 3.44774Z" fill="currentColor" />
   </svg>);
 }
-function TgIcon({ size = 18, stroke }) { return (<svg width={size} height={size} viewBox="0 0 24 24" fill="none"><path d="M21.5 4.3L2.9 11.4c-1 .4-1 1.1 .1 1.4l4.6 1.4 1.8 5.4c.2 .6 .1 .9 .8 .9 .5 0 .7-.2 1-.5l2.3-2.3 4.6 3.4c.9 .5 1.4 .2 1.6-.8l3-13.9c.3-1.2-.5-1.8-1.8-1.5z" stroke={stroke || C.ink2} strokeWidth="1.3" strokelinejoin="round" /></svg>); }
 function UserIcon({ size = 20, ...rest }) { return (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...rest}><path fillRule="evenodd" clipRule="evenodd" d="M12.0043 2C9.07027 2 6.69177 4.38864 6.69177 7.33517C6.69177 10.2817 9.07027 12.6703 12.0043 12.6703C14.9383 12.6703 17.3168 10.2817 17.3168 7.33517C17.3168 4.38864 14.9383 2 12.0043 2ZM12.0043 3.44767C14.1422 3.44767 15.8753 5.18816 15.8753 7.33517C15.8753 9.48218 14.1422 11.2227 12.0043 11.2227C9.8664 11.2227 8.1333 9.48218 8.1333 7.33517C8.1333 5.18816 9.8664 3.44767 12.0043 3.44767ZM9.83005 14.8209C9.05233 14.8749 8.26621 14.9859 7.4908 15.1521C5.99418 15.4604 4.79685 16.0763 4.28724 17.0999C4.09503 17.5002 3.99839 17.9288 4.00002 18.3627C3.99944 18.7935 4.0953 19.2227 4.28062 19.6153C4.76994 20.6271 5.8278 21.1997 7.25624 21.5171L7.51213 21.5705C8.26648 21.7407 9.05284 21.8553 9.84446 21.909C9.91189 21.9288 10.0726 21.9472 10.248 21.9561L10.3922 21.9615C10.4664 21.9633 10.5506 21.9637 10.676 21.9637C11.8138 22.0263 12.9934 22.0081 14.1675 21.9081C14.7932 21.8653 15.4231 21.7835 16.0477 21.6636L16.5151 21.5666C18.0576 21.2623 19.2126 20.6836 19.7186 19.6164C20.0937 18.8241 20.0937 17.9047 19.7188 17.1127C19.214 16.0483 18.0737 15.4744 16.5034 15.1509C15.8873 15.0194 15.2612 14.922 14.6307 14.8599L14.1697 14.8209C12.7259 14.6935 11.2738 14.6935 9.83005 14.8209ZM14.0436 16.263L14.0562 16.264C14.7799 16.3149 15.4991 16.4165 16.2087 16.568C17.3751 16.8083 18.1667 17.2067 18.4171 17.7348C18.6057 18.133 18.6057 18.5958 18.4169 18.9944C18.1829 19.4879 17.472 19.8691 16.4445 20.1021L16.2195 20.1498C15.496 20.3112 14.7791 20.4152 14.0576 20.4647C12.9379 20.5599 11.8249 20.5771 10.7148 20.5171L10.3212 20.5103C10.2119 20.5048 10.1198 20.4942 10.0345 20.4771C9.35872 20.4261 8.75066 20.3454 8.16027 20.2283L7.80775 20.1537C6.63771 19.9244 5.83915 19.5243 5.58024 18.989C5.48964 18.797 5.44125 18.5803 5.44154 18.3609C5.44073 18.1428 5.48848 17.931 5.58118 17.7379C5.83293 17.2324 6.67919 16.7971 7.78606 16.569C8.50073 16.4159 9.21962 16.3144 9.94294 16.264C11.316 16.143 12.6837 16.143 14.0436 16.263Z" fill="currentColor"/></svg>); }
 
 function Photo({ src, alt, ratio, fit }) { return (<div style={{ position: "relative", width: "100%", aspectRatio: ratio || "1", overflow: "hidden", background: C.panel }}><NextImage src={src} alt={alt || ""} fill sizes="(max-width: 768px) 50vw, 300px" style={{ width: "100%", height: "100%", objectFit: fit || "cover", display: "block" }} /></div>); }
@@ -200,7 +205,7 @@ function Collections({ go, goCollection }) {
       <div className="col-arch" style={{ position: "absolute", top: archTop, left: "53%", width: "clamp(184px,17vw,232px)", aspectRatio: "232 / 320", borderRadius: "1000px 1000px 0 0", border: "1px solid " + C.stroke, pointerEvents: "none", opacity: c ? 1 : 0, transform: "translate(-11px,-19px)", transition: "opacity .4s ease, top .5s cubic-bezier(.22,.61,.36,1)", zIndex: 2 }} />
         <div ref={archRef} className="col-arch" style={{ position: "absolute", top: archTop, left: "53%", width: "clamp(184px,17vw,232px)", aspectRatio: "232 / 320", borderRadius: "1000px 1000px 0 0", overflow: "hidden", border: "1px solid " + C.stroke, pointerEvents: "none", opacity: c ? 1 : 0, transition: "opacity .4s ease, top .5s cubic-bezier(.22,.61,.36,1)", zIndex: 3, background: "#fff", display: "grid", placeItems: "center" }}>
         {c && (c.img
-          ? <img loading="lazy" decoding="async" src={c.img} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
+          ? <NextImage fill sizes="(max-width: 768px) 50vw, 380px" src={c.img} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
           : <div style={{ textAlign: "center", padding: 22 }}><div style={{ fontFamily: head, fontSize: 22, color: C.ink, lineHeight: 1.1 }}>{c.n}</div><div style={{ ...label, fontSize: 10, marginTop: 10 }}>{c.brand}</div></div>)}
       </div>
       <div style={{ position: "relative", zIndex: 1, borderTop: "1px solid " + C.line }}>
@@ -381,8 +386,8 @@ function Authenticity({ go }) {
     </section>
 
     <section style={{ position: "relative", left: "50%", transform: "translateX(-50%)", width: "100vw", maxWidth: "100vw" }}>
-      <div style={{ height: "clamp(380px,48vw,660px)", overflow: "hidden" }}>
-        <img loading="lazy" decoding="async" src={ENTRUPY_LV} alt="Проверка сумки Louis Vuitton аппаратом Entrupy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />
+      <div style={{ position: "relative", height: "clamp(380px,48vw,660px)", overflow: "hidden" }}>
+        <NextImage fill sizes="(max-width: 768px) 100vw, 640px" src={ENTRUPY_LV} alt="Проверка сумки Louis Vuitton аппаратом Entrupy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />
       </div>
       <div style={{ position: "absolute", left: "clamp(16px,4vw,64px)", bottom: "clamp(16px,3.4vw,48px)", background: C.bg, padding: "14px 22px", boxShadow: "0 24px 48px -24px rgba(42,36,34,.4)" }}>
         <div style={{ ...label, fontSize: 10, color: C.ink2 }}>Кадр проверки</div>
@@ -392,7 +397,7 @@ function Authenticity({ go }) {
 
     <section style={{ borderBottom: "1px solid " + C.line, marginTop: "clamp(56px,8vw,110px)" }}>
       <div style={{ maxWidth: 1340, margin: "0 auto", padding: "0 0 clamp(40px,6vw,72px)", display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "clamp(28px,5vw,72px)" }} className="wrap g3">
-        {facts.map(([n, d], i) => { const [r, s] = useReveal(); return (<div key={n} ref={r} style={{ textAlign: "center", opacity: s ? 1 : 0, transform: s ? "none" : "translateY(18px)", transition: "all .7s ease " + (i * 0.1) + "s" }}><div style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(36px,4.6vw,64px)", color: C.accent }}>{n}</div><div style={{ fontFamily: body, fontWeight: 300, fontSize: 14.5, lineHeight: 1.55, color: C.ink2, marginTop: 12, maxWidth: 240, marginInline: "auto" }}>{d}</div></div>); })}
+        {facts.map(([n, d], i) => <FactItem key={n} n={n} d={d} i={i} />)}
       </div>
     </section>
 
@@ -704,7 +709,6 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
   }, [cat]);
   const condOpts = CONDITIONS;
   const metalOpts = useMemo(() => (cat === "jewelry" ? [...new Set(LOTS.filter((l) => l.cat === cat && l.metal).map((l) => l.metal))].sort() : []), [cat]);
-  const PRICE = [["< 200к", 0, 200000], ["200–400к", 200000, 400000], ["400к +", 400000, 1e12]];
 
   const list = useMemo(() => {
     let l = LOTS.filter((x) => x.cat === cat);
@@ -842,7 +846,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "32px 20px", textAlign: "center" }}>
           <svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", margin: "0 auto" }}><rect width="80" height="80" fill="black" /><path d="M24.1167 26C27.4667 26.1667 34.7251 26.9 36.9585 28.5C39.7502 31.5 37.5168 42 23 55C26.9084 47.5 31.3751 35.5 24.1167 26Z" fill="white" /><path d="M42.1167 26C45.4667 26.1667 52.7251 26.9 54.9585 28.5C57.7502 31.5 55.5168 42 41 55C44.9084 47.5 49.3751 35.5 42.1167 26Z" fill="white" /></svg>
           <p style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(16px,3.6vw,34px)", lineHeight: 1.3, color: C.ink, margin: "clamp(28px,3.8vw,44px) 0 0" }}>«За каждой находкой – чья-то долгая мечта.<br />Мы относимся к ней так же».</p>
-          <div style={{ marginTop: "clamp(14px,2.4vw,22px)" }}><div style={{ fontWeight: 400, fontSize: 26, letterSpacing: 0.5 }}><span style={{ fontFamily: head, color: C.ink }}>Irena</span> <span style={{ fontFamily: mont, color: C.ink2, fontSize: 18 }}>| Находки</span></div></div>
+          <div style={{ marginTop: "clamp(14px,2.4vw,22px)" }}><div style={{ position: "relative", fontWeight: 400, fontSize: 26, letterSpacing: 0.5 }}><span style={{ fontFamily: head, color: C.ink }}>Irena</span> <span style={{ fontFamily: mont, color: C.ink2, fontSize: 18 }}>| Находки</span></div></div>
         </div>
       </section>
 
@@ -851,7 +855,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
 
       {/* AUTHENTICITY TEASER */}
       <section onClick={() => go("authenticity")} aria-label="Подлинность" style={{ cursor: "pointer", position: "relative", left: "50%", transform: "translateX(-50%)", width: "100vw", maxWidth: "100vw", height: "clamp(400px,46vw,560px)", overflow: "hidden", margin: "clamp(44px,6vw,86px) 0" }}>
-        <img loading="lazy" decoding="async" src={ENTRUPY_BANNER} alt="Проверка Chanel прибором Entrupy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+        <NextImage fill sizes="(max-width: 768px) 100vw, 900px" src={ENTRUPY_BANNER} alt="Проверка Chanel прибором Entrupy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(42,36,34,0.05) 0%, rgba(42,36,34,0.22) 38%, rgba(42,36,34,0.60) 66%, rgba(42,36,34,0.90) 100%)" }} />
         <div className="wrap" style={{ position: "relative", maxWidth: 1340, margin: "0 auto", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-end" }}>
           <div style={{ maxWidth: 540 }}>
@@ -885,7 +889,7 @@ export default function App({ lots = [], initialView = "home", initialCat = "bag
       <section className="wrap" style={{ maxWidth: 1340, margin: "0 auto", padding: "clamp(160px,19vw,215px) 0 clamp(70px,10vw,130px)" }}>
         <div style={{ background: C.card, display: "grid", gridTemplateColumns: "1fr 1fr", alignItems: "center", overflow: "hidden", marginBottom: "clamp(32px,5vw,56px)" }} className="two">
           <div style={{ padding: "clamp(28px,4vw,56px)" }}><h1 style={{ fontFamily: head, fontWeight: 400, fontSize: "clamp(32px,4.6vw,58px)", margin: 0, color: C.ink }}>{cat === "bags" ? "Сумки" : "Украшения"}</h1><p style={{ fontFamily: body, fontWeight: 300, fontSize: 16, lineHeight: 1.7, color: C.ink2, margin: "14px 0 0", maxWidth: 360 }}>{cat === "bags" ? "Курируемая подборка сумок под заказ, с проверкой подлинности Entrupy." : "Украшения с экспертизой доверенного ювелира и полировкой перед отправкой."}</p></div>
-          <div style={{ height: "clamp(220px, 22vw, 330px)", overflow: "hidden", background: "#fff" }}>{cat === "bags" ? <LotImage lot={LOTS[0]} big /> : <img loading="lazy" decoding="async" src={JBANNER} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }} />}</div>
+          <div style={{ position: "relative", height: "clamp(220px, 22vw, 330px)", overflow: "hidden", background: "#fff" }}>{cat === "bags" ? <LotImage lot={LOTS[0]} big /> : <NextImage fill sizes="(max-width: 768px) 100vw, 660px" src={JBANNER} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }} />}</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28, flexWrap: "wrap", gap: 16 }}>
           <div style={{ display: "flex", gap: 28 }}>{[["bags", "Сумки"], ["jewelry", "Украшения"]].map(([k, l]) => <button key={k} onClick={() => { setCat(k); setFilters({ brands: [], collections: [], types: [], conditions: [], metals: [], price: [] }); }} style={{ fontFamily: head, fontSize: "clamp(20px,2.2vw,27px)", background: "none", border: "none", borderBottom: "2px solid " + (cat === k ? C.accent : "transparent"), padding: "0 0 6px", cursor: "pointer", color: cat === k ? C.ink : C.ink2, transition: "color .25s" }}>{l}<span style={{ fontSize: "0.6em", color: C.ink2, marginLeft: 7 }}>({LOTS.filter((x) => x.cat === k).length})</span></button>)}</div>
