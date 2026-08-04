@@ -233,6 +233,17 @@ export default function App({
       [key]: f[key].includes(val) ? f[key].filter((x) => x !== val) : [...f[key], val],
     }));
   const brandOpts = cat === "bags" ? BAG_BRANDS : JEWELRY_BRANDS;
+  // Баннер каталога сумок: конкретная модель, а не «первый попавшийся» лот,
+  // чтобы картинка не менялась при добавлении новых позиций.
+  const bannerLot = useMemo(() => {
+    const preferred = ["lv-keepall-bandouliere-graffiti", "lv-keepall-bandouliere-white-monogram"];
+    for (const id of preferred) {
+      const found = LOTS.find((l) => l.id === id && (l.photos || []).length);
+      if (found) return found;
+    }
+    return LOTS.find((l) => l.cat === "bags" && (l.photos || []).length) || LOTS[0];
+  }, [LOTS]);
+
   const collectionOpts = useMemo(
     () =>
       [
@@ -1004,7 +1015,7 @@ export default function App({
                 }}
               >
                 {cat === "bags" ? (
-                  <LotImage lot={LOTS[0]} big />
+                  <LotImage lot={bannerLot} big />
                 ) : (
                   <NextImage
                     fill
