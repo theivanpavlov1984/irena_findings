@@ -1,11 +1,10 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "../catalog/Card";
-import { C, body, btnGhost, head, mont } from "../../constants/theme";
+import { C, body, btnGhost, btnInk, head, label, mont } from "../../constants/theme";
 import { useLots } from "../../context/LotsContext";
-import { btnInk, label } from "../../constants/theme";
 
-/** Этапы работы над заявкой — в том же порядке, что в базе (enum order_status). */
+/** Этапы работы над заявкой — совпадают с enum order_status в базе. */
 const STATUS_FLOW = [
   ["new", "Заявка принята", "Получили запрос – Ирина напишет вам лично."],
   ["searching", "Ищем", "Подбираем вещь в нужном состоянии и комплекте."],
@@ -29,24 +28,152 @@ function fmtDate(iso) {
   });
 }
 
-/** Официальный виджет Telegram: скрипт сам вставляет кнопку входа. */
-function TelegramLoginButton({ botName }) {
-  const holder = useRef(null);
+const inputStyle = {
+  width: "100%",
+  padding: "13px 16px",
+  border: "1px solid " + C.line,
+  background: C.card,
+  fontFamily: mont,
+  fontSize: 15,
+  color: C.ink,
+  outline: "none",
+  borderRadius: 0,
+  boxSizing: "border-box",
+};
 
-  useEffect(() => {
-    if (!holder.current || !botName) return;
-    holder.current.innerHTML = "";
-    const script = document.createElement("script");
-    script.src = "https://telegram.org/js/telegram-widget.js?22";
-    script.async = true;
-    script.setAttribute("data-telegram-login", botName);
-    script.setAttribute("data-size", "large");
-    script.setAttribute("data-radius", "4");
-    script.setAttribute("data-auth-url", window.location.origin + "/api/auth/telegram");
-    holder.current.appendChild(script);
-  }, [botName]);
+/** Форма входа: сначала почта, потом код из письма. */
+function LoginForm({ onSuccess }) {
+  const [step, setStep] = useState("email");
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
 
-  return <div ref={holder} style={{ display: "flex", justifyContent: "center", minHeight: 48 }} />;
+  const sendCode = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      const r = await fetch("/api/auth/send-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error || "Не удалось отправить письмо");
+      setStep("code");
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const verify = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      const r = await fetch("/api/auth/verify-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code }),
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error || "Не удалось войти");
+      onSuccess();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div style={{ maxWidth: 380, margin: "0 auto" }}>
+      {step === "email" ? (
+        <>
+          <input
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            placeholder="Ваша почта"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && email && !busy && sendCode()}
+            style={inputStyle}
+          />
+          <button
+            onClick={sendCode}
+            disabled={busy || !email}
+            className="btn-primary"
+            style={{ ...btnInk, width: "100%", marginTop: 12, opacity: busy || !email ? 0.5 : 1 }}
+          >
+            {busy ? "Отправляем…" : "Получить код"}
+          </button>
+        </>
+      ) : (
+        <>
+          <div
+            style={{
+              fontFamily: mont,
+              fontSize: 13,
+              color: C.ink2,
+              marginBottom: 14,
+              lineHeight: 1.6,
+            }}
+          >
+            Отправили код на {email}. Письмо приходит в течение минуты – проверьте и папку
+            «Спам».
+          </div>
+          <input
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            maxLength={6}
+            placeholder="Код из письма"
+            value={code}
+            onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+            onKeyDown={(e) => e.key === "Enter" && code.length === 6 && !busy && verify()}
+            style={{ ...inputStyle, letterSpacing: 6, textAlign: "center", fontSize: 20 }}
+          />
+          <button
+            onClick={verify}
+            disabled={busy || code.length !== 6}
+            className="btn-primary"
+            style={{
+              ...btnInk,
+              width: "100%",
+              marginTop: 12,
+              opacity: busy || code.length !== 6 ? 0.5 : 1,
+            }}
+          >
+            {busy ? "Проверяем…" : "Войти"}
+          </button>
+          <button
+            onClick={() => {
+              setStep("email");
+              setCode("");
+              setError("");
+            }}
+            style={{
+              background: "none",
+              border: "none",
+              fontFamily: mont,
+              fontSize: 13,
+              color: C.ink2,
+              cursor: "pointer",
+              marginTop: 14,
+              padding: 0,
+            }}
+          >
+            Изменить почту
+          </button>
+        </>
+      )}
+
+      {error && (
+        <div style={{ fontFamily: mont, fontSize: 13, color: C.hot, marginTop: 14 }}>{error}</div>
+      )}
+    </div>
+  );
 }
 
 function OrderCard({ order }) {
@@ -55,11 +182,7 @@ function OrderCard({ order }) {
 
   return (
     <div
-      style={{
-        border: "1px solid " + C.line,
-        background: C.card,
-        padding: "clamp(20px,3vw,32px)",
-      }}
+      style={{ border: "1px solid " + C.line, background: C.card, padding: "clamp(20px,3vw,32px)" }}
     >
       <div style={{ display: "flex", justifyContent: "space-between", gap: 20, flexWrap: "wrap" }}>
         <div>
@@ -98,7 +221,9 @@ function OrderCard({ order }) {
                       flexShrink: 0,
                     }}
                   />
-                  {!last && <div style={{ width: 1, flex: 1, background: passed ? C.accent : C.line }} />}
+                  {!last && (
+                    <div style={{ width: 1, flex: 1, background: passed ? C.accent : C.line }} />
+                  )}
                 </div>
                 <div style={{ paddingBottom: last ? 0 : 16 }}>
                   <div
@@ -140,22 +265,15 @@ export function Account({ favs, onFav, onOpen, go }) {
   const items = LOTS.filter((l) => favs.has(l.id));
 
   const [state, setState] = useState({ loading: true, user: null, orders: [] });
-  const botName = process.env.NEXT_PUBLIC_TG_BOT;
 
-  useEffect(() => {
-    let alive = true;
+  const load = () => {
     fetch("/api/orders")
       .then((r) => r.json())
-      .then((d) => {
-        if (alive) setState({ loading: false, user: d.user, orders: d.orders || [] });
-      })
-      .catch(() => {
-        if (alive) setState({ loading: false, user: null, orders: [] });
-      });
-    return () => {
-      alive = false;
-    };
-  }, []);
+      .then((d) => setState({ loading: false, user: d.user, orders: d.orders || [] }))
+      .catch(() => setState({ loading: false, user: null, orders: [] }));
+  };
+
+  useEffect(load, []);
 
   const logout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -214,42 +332,39 @@ export function Account({ favs, onFav, onOpen, go }) {
         </div>
       ) : !state.user ? (
         <>
-          <div style={{ maxWidth: 460, margin: "0 auto", textAlign: "center" }}>
-            <p
-              style={{
-                fontFamily: body,
-                fontWeight: 300,
-                fontSize: 16,
-                lineHeight: 1.7,
-                color: C.ink2,
-                margin: "0 0 32px",
-              }}
-            >
-              Здесь видно, на каком этапе ваша заявка: ищем, проверяем подлинность, везём. Вход
-              через <span style={{ fontFamily: mont }}>Telegram</span> – без логинов и паролей.
-            </p>
+          <p
+            style={{
+              fontFamily: body,
+              fontWeight: 300,
+              fontSize: 16,
+              lineHeight: 1.7,
+              color: C.ink2,
+              margin: "0 auto 32px",
+              maxWidth: 440,
+              textAlign: "center",
+            }}
+          >
+            Здесь видно, на каком этапе ваша заявка: ищем, проверяем подлинность, везём. Введите
+            почту – пришлём код для входа.
+          </p>
 
-            {botName ? (
-              <TelegramLoginButton botName={botName} />
-            ) : (
-              <div style={{ fontFamily: mont, fontSize: 13, color: C.ink2 }}>
-                Вход временно недоступен.
-              </div>
-            )}
+          <LoginForm onSuccess={load} />
 
-            <p
-              style={{
-                fontFamily: body,
-                fontWeight: 300,
-                fontSize: 13,
-                lineHeight: 1.7,
-                color: C.ink2,
-                marginTop: 28,
-              }}
-            >
-              Заявку создаёт Ирина после разговора с вами – для заказа регистрация не нужна.
-            </p>
-          </div>
+          <p
+            style={{
+              fontFamily: body,
+              fontWeight: 300,
+              fontSize: 13,
+              lineHeight: 1.7,
+              color: C.ink2,
+              marginTop: 28,
+              textAlign: "center",
+              maxWidth: 440,
+              marginInline: "auto",
+            }}
+          >
+            Заявку создаёт Ирина после разговора с вами – для заказа регистрация не нужна.
+          </p>
           {favBlock}
         </>
       ) : (
@@ -280,14 +395,18 @@ export function Account({ favs, onFav, onOpen, go }) {
               {String(state.user.name).slice(0, 1).toUpperCase()}
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: head, fontWeight: 400, fontSize: 20, color: C.ink }}>
+              <div
+                style={{
+                  fontFamily: head,
+                  fontWeight: 400,
+                  fontSize: 20,
+                  color: C.ink,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
                 {state.user.name}
               </div>
-              {state.user.username && (
-                <div style={{ fontFamily: mont, fontSize: 13, color: C.ink2 }}>
-                  @{state.user.username}
-                </div>
-              )}
             </div>
             <button onClick={logout} style={{ ...btnGhost }} className="btn-secondary">
               Выйти

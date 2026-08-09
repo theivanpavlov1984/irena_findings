@@ -1,26 +1,20 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { readSessionValue, SESSION_COOKIE } from "../../../lib/tgAuth";
+import { readSession, SESSION_COOKIE } from "../../../lib/session";
 import { supabaseAdmin } from "../../../lib/supabase";
 
-/**
- * Возвращает заявки ТОЛЬКО того клиента, чья сессия в куке.
- * Куку подделать нельзя — она подписана токеном бота.
- */
+/** Заявки только того клиента, чья сессия в куке. */
 export async function GET() {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const raw = cookies().get(SESSION_COOKIE)?.value;
-  const tgId = readSessionValue(raw, token);
-
-  if (!tgId) return NextResponse.json({ user: null, orders: [] });
+  const clientId = readSession(cookies().get(SESSION_COOKIE)?.value);
+  if (!clientId) return NextResponse.json({ user: null, orders: [] });
 
   try {
     const db = supabaseAdmin();
 
     const { data: client } = await db
       .from("clients")
-      .select("id, tg_username, first_name, photo_url")
-      .eq("tg_id", tgId)
+      .select("id, email, first_name")
+      .eq("id", clientId)
       .single();
 
     if (!client) return NextResponse.json({ user: null, orders: [] });
@@ -34,11 +28,7 @@ export async function GET() {
     if (error) throw error;
 
     return NextResponse.json({
-      user: {
-        name: client.first_name || client.tg_username || "Клиент",
-        username: client.tg_username,
-        photo: client.photo_url,
-      },
+      user: { name: client.first_name || client.email, email: client.email },
       orders: orders || [],
     });
   } catch (e) {
