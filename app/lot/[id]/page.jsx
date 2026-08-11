@@ -31,7 +31,7 @@ export function generateMetadata({ params }) {
       description,
       url: `/lot/${lot.id}`,
       images: photo
-        ? [{ url: photo, width: 900, height: 900, alt: `${lot.brand} ${lot.model}` }]
+        ? [{ url: photo, alt: `${lot.brand} ${lot.model}` }]
         : [],
     },
     twitter: { card: "summary_large_image", title, description, images: photo ? [photo] : [] },
