@@ -49,6 +49,7 @@ content:
           values:
             - { name: bags, label: Сумки }
             - { name: jewelry, label: Украшения }
+            - { name: watches, label: Часы }
 
       - name: brand
         label: Бренд
@@ -64,7 +65,7 @@ content:
         type: select
         required: true
         options:
-          values: ['Мини-сумки', 'Клатчи и пошетты', 'Сумки через плечо', 'Тоуты', 'Рюкзаки', 'Дорожные сумки', 'Колье', 'Браслеты', 'Серьги', 'Кольца']
+          values: ['Мини-сумки', 'Клатчи и пошетты', 'Сумки через плечо', 'Тоуты', 'Рюкзаки', 'Дорожные сумки', 'Колье', 'Браслеты', 'Серьги', 'Кольца', 'Женские часы', 'Мужские часы', 'Унисекс']
 
       - name: model
         label: Модель
@@ -76,6 +77,15 @@ content:
         type: number
         options: { step: 1000, min: 0 }
         description: 'Пусто — на сайте будет «Цена по запросу». Так делаем для подборок.'
+
+      - name: currency
+        label: Валюта цены
+        type: select
+        default: RUB
+        options:
+          values:
+            - { name: RUB, label: Рубли ₽ }
+            - { name: USD, label: Доллары $ (оплата в рублях по курсу ЦБ) }
 
       - name: condition
         label: Состояние — для фильтра
@@ -106,6 +116,7 @@ content:
           - { name: color, label: Цвет, type: string }
           - { name: metal, label: Металл, type: string, description: 'Только для украшений. Пример: Белое золото 18k. Это же поле работает в фильтре «Металл».' }
           - { name: size, label: Размер, type: string }
+          - { name: movement, label: "Механизм (часы)", type: string }
           - { name: serial, label: Серийный номер, type: string }
           - { name: complect, label: Комплект, type: string }
 
@@ -118,6 +129,7 @@ content:
             - { name: entrupy, label: Entrupy — сумки }
             - { name: jeweler, label: Ювелир в Москве — украшения }
             - { name: expert, label: Ручная экспертиза специалиста — Hermès }
+            - { name: watchmaker, label: Часовой сервис в Москве — часы }
 
       - name: photos
         label: Фото
