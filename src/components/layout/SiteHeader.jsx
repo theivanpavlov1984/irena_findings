@@ -95,6 +95,7 @@ export function SiteHeader({
           {[
             ["Сумки", () => go("catalog", "bags")],
             ["Украшения", () => go("catalog", "jewelry")],
+            ["Часы", () => go("catalog", "watches")],
             ["Подлинность", () => go("authenticity")],
             [
               "Под заказ",

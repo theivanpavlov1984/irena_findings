@@ -11,14 +11,14 @@ function plain(lot) {
   const first = (lot.desc || "").split("\n\n")[0] || "";
   const cond = lot.conditionNote || lot.condition || "";
   const base = first.length > 20 ? first : [lot.brand, lot.model, cond].filter(Boolean).join(". ");
-  const text = `${base} ${fmtPrice(lot.price)}.`.replace(/\s+/g, " ").trim();
+  const text = `${base} ${fmtPrice(lot.price, lot.currency)}.`.replace(/\s+/g, " ").trim();
   return text.length > 300 ? text.slice(0, 297).trimEnd() + "…" : text;
 }
 
 export function generateMetadata({ params }) {
   const lot = getLot(params.id);
   if (!lot) return { title: "Лот не найден — Irena | Находки" };
-  const title = `${lot.brand} ${lot.model} — ${fmtPrice(lot.price)} | Irena · Находки`;
+  const title = `${lot.brand} ${lot.model} — ${fmtPrice(lot.price, lot.currency)} | Irena · Находки`;
   const description = plain(lot);
   const photo = (lot.photos && lot.photos[0]) || null;
   return {

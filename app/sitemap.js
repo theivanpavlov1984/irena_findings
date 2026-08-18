@@ -3,7 +3,7 @@ import { SITE } from "../lib/site.js";
 
 export default function sitemap() {
   const now = new Date();
-  const pages = ["/", "/catalog/bags", "/catalog/jewelry", "/authenticity"];
+  const pages = ["/", "/catalog/bags", "/catalog/jewelry", "/catalog/watches", "/authenticity"];
   const lots = getLots().map((l) => "/lot/" + l.id);
   return [...pages, ...lots].map((p) => ({ url: SITE + p, lastModified: now }));
 }

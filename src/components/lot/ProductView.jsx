@@ -55,7 +55,7 @@ export function ProductView({
         lot.brand +
         " " +
         lot.model +
-        (lot.price != null ? " – " + fmt(lot.price) : "") +
+        (lot.price != null ? " – " + fmt(lot.price, lot.currency) : "") +
         "." +
         (lotUrl ? "\n" + lotUrl : "")
     );
@@ -65,7 +65,7 @@ export function ProductView({
   const [copied, setCopied] = useState(false);
   const share = async () => {
     const url = window.location.href;
-    const title = lot.brand + " " + lot.model + " – " + fmt(lot.price);
+    const title = lot.brand + " " + lot.model + " – " + fmt(lot.price, lot.currency);
     if (navigator.share) {
       try {
         await navigator.share({ title, url });
@@ -246,7 +246,7 @@ export function ProductView({
             </h1>
             <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 20 }}>
               <div style={{ fontFamily: body, fontWeight: 600, fontSize: 24, color: C.ink }}>
-                {fmt(lot.price)}
+                {fmt(lot.price, lot.currency)}
               </div>
               <span style={{ ...label, display: "inline-flex", alignItems: "center", gap: 7 }}>
                 <span
@@ -265,9 +265,14 @@ export function ProductView({
                 {STATUS[lot.status]}
               </span>
             </div>
+            {lot.currency === "USD" && (
+              <div style={{ fontFamily: mont, fontSize: 13, color: C.ink2, marginTop: 8 }}>
+                Оплата в рублях по курсу ЦБ на день оплаты
+              </div>
+            )}
             {showRetail && (
               <div style={{ fontFamily: body, fontSize: 13, color: C.ink2, marginTop: 8 }}>
-                Ретейл в бутике – около {fmt(lot.retail)}
+                Ретейл в бутике – около {fmt(lot.retail, lot.currency)}
               </div>
             )}
             <div style={{ display: "flex", gap: 12, marginTop: 28, flexWrap: "wrap" }}>
@@ -420,7 +425,9 @@ export function ProductView({
                       ? "Перед передачей сумка проходит аппаратную проверку Entrupy – с цифровым сертификатом, который можно проверить самостоятельно."
                       : lot.auth === "expert"
                         ? "Hermès проверяет профильный специалист вручную: кожа, строчка, клейма, фурнитура. Entrupy для Hermès не применяется – только живая экспертиза."
-                        : "Перед передачей украшение проверяет доверенный ювелир в Москве: металл, пробы, камни и клейма."}{" "}
+                        : lot.auth === "watchmaker"
+                          ? "Часы проходят проверку в партнёрском московском сервисе по швейцарским часам: мастер смотрит механизм изнутри и подтверждает подлинность. Можно приехать вместе и услышать заключение лично."
+                          : "Перед передачей украшение проверяет доверенный ювелир в Москве: металл, пробы, камни и клейма."}{" "}
                     Гарантия подлинности действует всегда.
                   </p>
                   <button
@@ -459,7 +466,9 @@ export function ProductView({
                           ? "Проверка Entrupy"
                           : lot.auth === "expert"
                             ? "Экспертиза специалиста"
-                            : "Экспертиза ювелира"}
+                            : lot.auth === "watchmaker"
+                              ? "Проверка часового сервиса"
+                              : "Экспертиза ювелира"}
                       </div>
                       <div style={{ ...label, marginTop: 8, color: C.accent }}>
                         Как мы проверяем →

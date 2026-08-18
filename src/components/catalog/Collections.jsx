@@ -3,8 +3,7 @@ import { useRef, useState } from "react";
 import NextImage from "next/image";
 import { ArrowRight } from "lucide-react";
 import { COLLECTIONS } from "../../constants/catalog";
-import { C, body, head } from "../../constants/theme";
-("../../constants/theme");
+import { C, body, head, label } from "../../constants/theme";
 export function Collections({ go, goCollection }) {
   const [hi, setHi] = useState(null);
   const [archTop, setArchTop] = useState(0);

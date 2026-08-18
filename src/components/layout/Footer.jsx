@@ -82,6 +82,7 @@ export function Footer({ go }) {
           {[
             ["Сумки", () => go("catalog", "bags")],
             ["Украшения", () => go("catalog", "jewelry")],
+            ["Часы", () => go("catalog", "watches")],
             [
               "Под заказ",
               () => {

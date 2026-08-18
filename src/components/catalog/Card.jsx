@@ -105,7 +105,7 @@ export function Card({ lot, fav, onFav, onOpen, i, tag = true }) {
           }}
         >
           <div style={{ fontFamily: body, fontWeight: 600, fontSize: 15, color: C.ink }}>
-            {fmt(lot.price)}
+            {fmt(lot.price, lot.currency)}
           </div>
           <div style={{ ...label, fontSize: 9.5 }}>{STATUS[lot.status]}</div>
         </div>

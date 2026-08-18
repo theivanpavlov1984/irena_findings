@@ -39,6 +39,24 @@ export const JEWELRY_BRANDS = [
   "Damiani",
 ];
 
+export const WATCH_BRANDS = [
+  "Cartier",
+  "Rolex",
+  "Omega",
+  "Piaget",
+  "Chopard",
+  "Hermès",
+  "Patek Philippe",
+  "Audemars Piguet",
+  "Jaeger-LeCoultre",
+  "Vacheron Constantin",
+  "IWC",
+  "Breguet",
+  "Bvlgari",
+  "Chanel",
+  "Van Cleef & Arpels",
+];
+
 export const CONDITIONS = ["Новое", "Отличное", "Хорошее", "Винтаж"];
 
 export const PRICE = [

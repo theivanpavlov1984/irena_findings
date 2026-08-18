@@ -1,8 +1,7 @@
 "use client";
 import NextImage from "next/image";
 import { PHOTOS } from "../../constants/media";
-import { head } from "../../constants/theme";
-("../../constants/theme");
+import { head, label } from "../../constants/theme";
 export function LotImage({ lot, big, idx = 0 }) {
   const src = (lot.photos && (lot.photos[idx] || lot.photos[0])) || PHOTOS[lot.id];
   if (src)

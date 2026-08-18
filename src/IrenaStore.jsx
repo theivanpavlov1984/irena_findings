@@ -18,7 +18,7 @@ import { Checkbox } from "./components/ui/Checkbox";
 import { Dropdown } from "./components/ui/Dropdown";
 import { FilterGroup } from "./components/ui/FilterGroup";
 import { Pager } from "./components/ui/Pager";
-import { BAG_BRANDS, CONDITIONS, JEWELRY_BRANDS, PRICE } from "./constants/catalog";
+import { BAG_BRANDS, CONDITIONS, JEWELRY_BRANDS, PRICE, WATCH_BRANDS } from "./constants/catalog";
 import { ENTRUPY_BANNER, HERO_IMAGES, JBANNER } from "./constants/media";
 import { MARQUEE } from "./constants/site";
 import { C, body, head, label, mont } from "./constants/theme";
@@ -41,6 +41,7 @@ export default function App({
     types: [],
     conditions: [],
     metals: [],
+    movements: [],
     price: [],
   });
   const [favs, setFavs] = useState(new Set());
@@ -104,6 +105,7 @@ export default function App({
           types: [],
           conditions: [],
           metals: [],
+          movements: [],
           price: [],
         });
         setView("catalog");
@@ -187,7 +189,7 @@ export default function App({
   const go = (v, c) => {
     if (c) {
       setCat(c);
-      setFilters({ brands: [], collections: [], types: [], conditions: [], metals: [], price: [] });
+      setFilters({ brands: [], collections: [], types: [], conditions: [], metals: [], movements: [], price: [] });
     }
     setView(v);
     setFiltersOpen(false);
@@ -232,9 +234,13 @@ export default function App({
       ...f,
       [key]: f[key].includes(val) ? f[key].filter((x) => x !== val) : [...f[key], val],
     }));
-  const brandOpts = cat === "bags" ? BAG_BRANDS : JEWELRY_BRANDS;
+  const brandOpts = cat === "bags" ? BAG_BRANDS : cat === "watches" ? WATCH_BRANDS : JEWELRY_BRANDS;
   // Баннер каталога сумок: конкретная модель, а не «первый попавшийся» лот,
   // чтобы картинка не менялась при добавлении новых позиций.
+  const watchBannerLot = useMemo(
+    () => LOTS.find((l) => l.cat === "watches" && (l.photos || []).length) || null,
+    [LOTS]
+  );
   const bannerLot = useMemo(() => {
     const preferred = ["lv-keepall-bandouliere-graffiti", "lv-keepall-bandouliere-white-monogram"];
     for (const id of preferred) {
@@ -279,8 +285,15 @@ export default function App({
   const condOpts = CONDITIONS;
   const metalOpts = useMemo(
     () =>
-      cat === "jewelry"
+      cat === "jewelry" || cat === "watches"
         ? [...new Set(LOTS.filter((l) => l.cat === cat && l.metal).map((l) => l.metal))].sort()
+        : [],
+    [LOTS, cat]
+  );
+  const movementOpts = useMemo(
+    () =>
+      cat === "watches"
+        ? [...new Set(LOTS.filter((l) => l.cat === cat && l.movement).map((l) => l.movement))].sort()
         : [],
     [LOTS, cat]
   );
@@ -291,6 +304,7 @@ export default function App({
     if (filters.types.length) l = l.filter((x) => filters.types.includes(x.type));
     if (filters.conditions.length) l = l.filter((x) => filters.conditions.includes(x.condition));
     if (filters.metals.length) l = l.filter((x) => filters.metals.includes(x.metal));
+    if (filters.movements.length) l = l.filter((x) => filters.movements.includes(x.movement));
     if (filters.price.length)
       l = l.filter((x) =>
         filters.price.some((pi) => {
@@ -308,6 +322,7 @@ export default function App({
     filters.types.length ||
     filters.conditions.length ||
     filters.metals.length ||
+    filters.movements.length ||
     filters.price.length;
   const activeCount =
     filters.brands.length +
@@ -315,6 +330,7 @@ export default function App({
     filters.types.length +
     filters.conditions.length +
     filters.metals.length +
+    filters.movements.length +
     filters.price.length;
   const filterGroups = (
     <>
@@ -354,9 +370,22 @@ export default function App({
         </FilterGroup>
       )}
       {metalOpts.length > 0 && (
-        <FilterGroup title="Металл">
+        <FilterGroup title={cat === "watches" ? "Материал корпуса" : "Металл"}>
           {metalOpts.map((m) => (
             <Checkbox key={m} on={filters.metals.includes(m)} onClick={() => toggle("metals", m)}>
+              {m}
+            </Checkbox>
+          ))}
+        </FilterGroup>
+      )}
+      {movementOpts.length > 0 && (
+        <FilterGroup title="Механизм">
+          {movementOpts.map((m) => (
+            <Checkbox
+              key={m}
+              on={filters.movements.includes(m)}
+              onClick={() => toggle("movements", m)}
+            >
               {m}
             </Checkbox>
           ))}
@@ -395,6 +424,7 @@ export default function App({
               types: [],
               conditions: [],
               metals: [],
+              movements: [],
               price: [],
             })
           }
@@ -988,7 +1018,7 @@ export default function App({
                     color: C.ink,
                   }}
                 >
-                  {cat === "bags" ? "Сумки" : "Украшения"}
+                  {cat === "bags" ? "Сумки" : cat === "watches" ? "Часы" : "Украшения"}
                 </h1>
                 <p
                   style={{
@@ -1003,7 +1033,9 @@ export default function App({
                 >
                   {cat === "bags"
                     ? "Курируемая подборка сумок под заказ, с проверкой подлинности Entrupy."
-                    : "Украшения с экспертизой доверенного ювелира и полировкой перед отправкой."}
+                    : cat === "watches"
+                      ? "Часы под заказ. Механизм и подлинность проверяет партнёрский часовой сервис в Москве."
+                      : "Украшения с экспертизой доверенного ювелира и полировкой перед отправкой."}
                 </p>
               </div>
               <div
@@ -1016,6 +1048,8 @@ export default function App({
               >
                 {cat === "bags" ? (
                   <LotImage lot={bannerLot} big />
+                ) : cat === "watches" && watchBannerLot ? (
+                  <LotImage lot={watchBannerLot} big />
                 ) : (
                   <NextImage
                     fill
@@ -1041,6 +1075,7 @@ export default function App({
                 {[
                   ["bags", "Сумки"],
                   ["jewelry", "Украшения"],
+                  ["watches", "Часы"],
                 ].map(([k, l]) => (
                   <button
                     key={k}
@@ -1052,6 +1087,7 @@ export default function App({
                         types: [],
                         conditions: [],
                         metals: [],
+                        movements: [],
                         price: [],
                       });
                     }}
@@ -1265,6 +1301,7 @@ export default function App({
                           types: [],
                           conditions: [],
                           metals: [],
+                          movements: [],
                           price: [],
                         })
                       }
