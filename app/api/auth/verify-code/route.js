@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "../../../../lib/supabase";
 import { createSession, isValidEmail, SESSION_COOKIE, SESSION_COOKIE_OPTIONS } from "../../../../lib/session";
+import { rateLimit, clientIp } from "../../../../lib/rateLimit";
 
 /** Шаг 2: клиент вводит код из письма — проверяем и открываем сессию. */
 export async function POST(request) {
@@ -12,6 +13,18 @@ export async function POST(request) {
     }
 
     const mail = email.trim().toLowerCase();
+
+    // Защита от подбора кода: 10 попыток на адрес и 20 с одного IP за 15 минут.
+    const byEmail = rateLimit(`verify:${mail}`, 10, 900_000);
+    const byIp = rateLimit(`verify-ip:${clientIp(request)}`, 20, 900_000);
+    if (!byEmail.ok || !byIp.ok) {
+      const retry = Math.max(byEmail.retryAfter, byIp.retryAfter);
+      return NextResponse.json(
+        { error: "Слишком много попыток. Попробуйте позже." },
+        { status: 429, headers: { "Retry-After": String(retry) } }
+      );
+    }
+
     const db = supabaseAdmin();
 
     const { data, error } = await db.auth.verifyOtp({
