@@ -114,9 +114,31 @@ content:
         type: object
         fields:
           - { name: color, label: Цвет, type: string }
-          - { name: metal, label: Металл, type: string, description: 'Только для украшений. Пример: Белое золото 18k. Это же поле работает в фильтре «Металл».' }
+          - name: metal
+            label: Металл / материал корпуса
+            type: select
+            description: 'Для украшений — металл. Для часов — материал корпуса.'
+            options:
+              values:
+                - Жёлтое золото 18k
+                - Розовое золото 18k
+                - Белое золото 18k
+                - Платина
+                - Сталь
+                - Сталь и жёлтое золото
+                - Сталь и розовое золото
+                - Титан
+                - Керамика
+                - Серебро
           - { name: size, label: Размер, type: string }
-          - { name: movement, label: "Механизм (часы)", type: string }
+          - name: movement
+            label: Механизм (часы)
+            type: select
+            options:
+              values:
+                - Кварцевый
+                - Механический
+                - Механический с автоподзаводом
           - { name: serial, label: Серийный номер, type: string }
           - { name: complect, label: Комплект, type: string }
 
