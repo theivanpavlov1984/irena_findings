@@ -25,5 +25,9 @@ export const JUSTE = "/img/juste.svg";
 export const HERO_IMAGES = [GRAFF, JUSTE, KEEPAL, VANCLEEF, VANITY, KEEPAL1];
 
 export const JBANNER = "/img/jbanner.svg";
+export const WBANNER = "/img/watches-banner.jpg";
+export const LPI_SIGN = "/img/lpi-sign.jpg";
+export const LPI_BENCH = "/img/lpi-bench.jpg";
+export const LPI_MASTER = "/img/lpi-master.jpg";
 
 export const PHOTOS = {};

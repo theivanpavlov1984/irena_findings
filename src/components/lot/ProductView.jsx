@@ -59,7 +59,7 @@ export function ProductView({
         "." +
         (lotUrl ? "\n" + lotUrl : "")
     );
-  const catLabel = lot.cat === "bags" ? "Сумки" : "Украшения";
+  const catLabel = lot.cat === "bags" ? "Сумки" : lot.cat === "watches" ? "Часы" : "Украшения";
   const [tab, setTab] = useState("desc");
   const [ph, setPh] = useState(0);
   const [copied, setCopied] = useState(false);

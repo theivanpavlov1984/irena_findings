@@ -19,7 +19,7 @@ import { Dropdown } from "./components/ui/Dropdown";
 import { FilterGroup } from "./components/ui/FilterGroup";
 import { Pager } from "./components/ui/Pager";
 import { BAG_BRANDS, CONDITIONS, JEWELRY_BRANDS, PRICE, WATCH_BRANDS } from "./constants/catalog";
-import { ENTRUPY_BANNER, HERO_IMAGES, JBANNER } from "./constants/media";
+import { ENTRUPY_BANNER, HERO_IMAGES, JBANNER, WBANNER } from "./constants/media";
 import { MARQUEE } from "./constants/site";
 import { C, body, head, label, mont } from "./constants/theme";
 import { useHideOnScroll } from "./hooks/useHideOnScroll";
@@ -237,10 +237,6 @@ export default function App({
   const brandOpts = cat === "bags" ? BAG_BRANDS : cat === "watches" ? WATCH_BRANDS : JEWELRY_BRANDS;
   // Баннер каталога сумок: конкретная модель, а не «первый попавшийся» лот,
   // чтобы картинка не менялась при добавлении новых позиций.
-  const watchBannerLot = useMemo(
-    () => LOTS.find((l) => l.cat === "watches" && (l.photos || []).length) || null,
-    [LOTS]
-  );
   const bannerLot = useMemo(() => {
     const preferred = ["lv-keepall-bandouliere-graffiti", "lv-keepall-bandouliere-white-monogram"];
     for (const id of preferred) {
@@ -1048,13 +1044,11 @@ export default function App({
               >
                 {cat === "bags" ? (
                   <LotImage lot={bannerLot} big />
-                ) : cat === "watches" && watchBannerLot ? (
-                  <LotImage lot={watchBannerLot} big />
                 ) : (
                   <NextImage
                     fill
                     sizes="(max-width: 768px) 100vw, 660px"
-                    src={JBANNER}
+                    src={cat === "watches" ? WBANNER : JBANNER}
                     alt=""
                     style={{ width: "100%", height: "100%", objectFit: "contain" }}
                   />

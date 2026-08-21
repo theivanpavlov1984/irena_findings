@@ -1,7 +1,7 @@
 "use client";
 import NextImage from "next/image";
 import { Photo } from "../ui/Photo";
-import { ENTRUPY_BOX, ENTRUPY_LV, IMG } from "../../constants/media";
+import { ENTRUPY_BOX, ENTRUPY_LV, IMG, LPI_BENCH } from "../../constants/media";
 import { TELEGRAM } from "../../constants/site";
 import { C, body, head } from "../../constants/theme";
 import { useReveal } from "../../hooks/useReveal";
@@ -294,6 +294,15 @@ export function Authenticity({ go }) {
           title="Экспертиза ювелира"
           reverse
           text="Украшения проверяет доверенный ювелир в Москве: металл, пробы, камни и клейма – в том числе на приборе Diamond Inspector. Перед отправкой каждое изделие полируется."
+        />
+        <Chapter
+          num="03"
+          img={LPI_BENCH}
+          alt="Мастерская LPI Watch Club"
+          tag="Часы"
+          title="Часовой сервис LPI"
+          text="Часы проверяет LPI Watch Club – московский сервис по швейцарским часам. Мастер вскрывает корпус и смотрит механизм изнутри: маркировку калибра, обработку деталей, следы вмешательства. По внешнему виду часы подделать можно, механизм – почти нет."
+          text2="Проверка проходит после того, как вы подтвердили заказ, и до оплаты. Вы можете приехать в сервис вместе с нами и услышать заключение мастера лично."
         />
       </section>
 
