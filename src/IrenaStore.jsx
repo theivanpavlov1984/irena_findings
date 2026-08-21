@@ -1030,7 +1030,7 @@ export default function App({
                   {cat === "bags"
                     ? "Курируемая подборка сумок под заказ, с проверкой подлинности Entrupy."
                     : cat === "watches"
-                      ? "Часы под заказ. Механизм и подлинность проверяет партнёрский часовой сервис в Москве."
+                      ? "Часы под заказ, с проверкой механизма в часовом сервисе в Москве."
                       : "Украшения с экспертизой доверенного ювелира и полировкой перед отправкой."}
                 </p>
               </div>
@@ -1043,7 +1043,7 @@ export default function App({
                 }}
               >
                 {cat === "bags" ? (
-                  <LotImage lot={bannerLot} big />
+                  <LotImage lot={bannerLot} big fit="contain" />
                 ) : (
                   <NextImage
                     fill

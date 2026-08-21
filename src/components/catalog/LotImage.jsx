@@ -2,7 +2,7 @@
 import NextImage from "next/image";
 import { PHOTOS } from "../../constants/media";
 import { head, label } from "../../constants/theme";
-export function LotImage({ lot, big, idx = 0 }) {
+export function LotImage({ lot, big, idx = 0, fit = "cover" }) {
   const src = (lot.photos && (lot.photos[idx] || lot.photos[0])) || PHOTOS[lot.id];
   if (src)
     return (
@@ -21,7 +21,7 @@ export function LotImage({ lot, big, idx = 0 }) {
           alt={lot.brand + " " + lot.model}
           fill
           sizes="(max-width: 768px) 50vw, 420px"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: fit }}
         />
       </div>
     );
